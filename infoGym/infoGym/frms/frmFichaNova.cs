@@ -20,7 +20,7 @@ namespace infoGym
 
         private void btnTreiAdd_Click(object sender, EventArgs e)
         {
-            //add letra na grid
+            //add letra na gridaaa
         }
 
         private void btnTreiAtualizar_Click(object sender, EventArgs e)
