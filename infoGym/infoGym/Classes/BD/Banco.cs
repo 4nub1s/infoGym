@@ -11,7 +11,7 @@ namespace infoGym
 {
     class Banco
     {
-        String strcon = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=postgres123;Database=infoGym;";
+        String strcon = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=316472;Database=infoGym;";
         NpgsqlConnection con = null;
         NpgsqlTransaction trans = null;
         public bool conecta()
