@@ -1,0 +1,505 @@
+﻿CREATE TABLE estado (
+       est_cod              serial NOT NULL,
+       est_sigla            character varying(2) NOT NULL,
+       PRIMARY KEY (est_cod)
+)
+;
+
+
+CREATE TABLE cidade (
+       cid_cod              serial NOT NULL,
+       est_cod              integer null,
+       cid_nome             character varying(100) NOT NULL,
+       PRIMARY KEY (cid_cod), 
+       FOREIGN KEY (est_cod)
+                             REFERENCES estado
+)
+;
+
+
+CREATE TABLE aluno (
+       alu_id               serial NOT NULL,
+       cid_cod              integer null,
+       alu_nome             character varying(60) NOT NULL,
+       alu_rg               character varying(20) NOT NULL,
+       alu_cpf              character varying(11) NULL,
+       alu_bairro           character varying(30) NULL,
+       alu_rua              character varying(100) NULL,
+       alu_numero           character varying(10) NULL,
+       alu_cep              character varying(8) NULL,
+       alu_fone             character varying(12) NULL,
+       alu_cel              character varying(12) NULL,
+       alu_email            character varying(100) NULL,
+       alu_dtnasc           date NULL,
+       alu_sexo             character NULL,
+       ter_id		    integer NULL,
+       PRIMARY KEY (alu_id), 
+       FOREIGN KEY (cid_cod)
+                             REFERENCES cidade,
+       FOREIGN KEY (ter_id)
+			     REFERENCES termo
+)
+;
+
+
+CREATE TABLE termo (
+       ter_id               serial NOT NULL,
+       ter_quemcadastrou    integer NULL,
+       PRIMARY KEY (ter_id), 
+       FOREIGN KEY (ter_quemcadastrou)
+                             REFERENCES acesso
+)
+;
+
+
+CREATE TABLE fornecedor (
+       forn_id              serial NOT NULL,
+       forn_cnpj            character varying(100) NULL,
+       forn_razaosocial     character varying(100) NULL,
+       forn_inscestadual    character varying(100) NULL,
+       forn_bairro          character varying(100) NULL,
+       forn_rua             character varying(100) NULL,
+       forn_num             character varying(10) NULL,
+       forn_cep             character varying(8) NULL,
+       forn_email           character varying(100) NULL,
+       forn_site            character varying(100) NULL,
+       forn_fone            character varying(12) NULL,
+       forn_cel             character varying(12) NULL,
+       forn_representante   character varying(100) NULL,
+       cid_cod              integer null,
+       PRIMARY KEY (forn_id), 
+       FOREIGN KEY (cid_cod)
+                             REFERENCES cidade
+)
+;
+
+
+CREATE TABLE produto (
+       prod_id              serial NOT NULL,
+       forn_id              integer null,
+       prod_desc            character varying(100) NOT NULL,
+       prod_valor           money NULL,
+       prod_estatual        numeric NULL,
+       prod_estmin          numeric NULL,
+       PRIMARY KEY (prod_id), 
+       FOREIGN KEY (forn_id)
+                             REFERENCES fornecedor
+)
+;
+
+
+CREATE TABLE usuario (
+       usuario_id           serial NOT NULL,
+       usuario_pass         character varying(10) NOT NULL,
+       usuario_login        character varying(20) NOT NULL,
+       usuario_status       boolean NULL,
+       PRIMARY KEY (usuario_id)
+)
+;
+
+
+CREATE TABLE funcionario (
+       func_id              serial NOT NULL,
+       usuario_id              integer null,
+       categoria            character varying(30) NOT NULL,
+       func_nome            character varying(60) NOT NULL,
+       func_rg              character varying(20) NOT NULL,
+       func_cpf             character varying(11) NULL,
+       func_dtnasc          date NULL,
+       func_bairro          character varying(30) NULL,
+       func_rua             character varying(100) NULL,
+       func_numero          character varying(10) NULL,
+       func_cep             character varying(8) NULL,
+       func_fone            character varying(12) NULL,
+       func_cel             character varying(12) NULL,
+       func_email           character varying(100) NULL,
+       cid_cod              integer null,
+       func_dtadm           date NULL,
+       func_dtdem           date NULL,
+       PRIMARY KEY (func_id), 
+       FOREIGN KEY (usuario_id)
+                             REFERENCES usuario, 
+       FOREIGN KEY (cid_cod)
+                             REFERENCES cidade
+)
+;
+
+
+CREATE TABLE venda (
+       ven_cod              serial NOT NULL,
+       ven_data             date NULL,
+       alu_id               integer null,
+       ven_valor            money NULL,
+       acess_id             integer null,
+       PRIMARY KEY (ven_cod), 
+       FOREIGN KEY (alu_id)
+                             REFERENCES aluno, 
+       FOREIGN KEY (acess_id)
+                             REFERENCES acesso
+)
+;
+
+
+CREATE TABLE venda_produto (
+       ven_cod              serial NOT NULL,
+       prod_id              serial NOT NULL,
+       item_valor           money NULL,
+       item_qtde            numeric NULL,
+       PRIMARY KEY (ven_cod, prod_id), 
+       FOREIGN KEY (prod_id)
+                             REFERENCES produto, 
+       FOREIGN KEY (ven_cod)
+                             REFERENCES venda
+)
+;
+
+
+CREATE TABLE acesso (
+       acess_id             serial NOT NULL,
+       usuario_id              integer null,
+       acess_ent            timestamp NULL,
+       acess_sai            timestamp NULL,
+       PRIMARY KEY (acess_id), 
+       FOREIGN KEY (usuario_id)
+                             REFERENCES usuario
+)
+;
+
+
+CREATE TABLE tela (
+       tela_id              serial NOT NULL,
+       tela_nome            character varying(100) NOT NULL,
+       PRIMARY KEY (tela_id)
+)
+;
+
+
+CREATE TABLE campo (
+       camp_id              serial NOT NULL,
+       tela_id              serial NOT NULL,
+       camp_nome            character varying(100) NULL,
+       PRIMARY KEY (camp_id, tela_id), 
+       FOREIGN KEY (tela_id)
+                             REFERENCES tela
+)
+;
+
+
+CREATE TABLE usuario_campo (
+       usuario_id              serial NOT NULL,
+       camp_id              serial NOT NULL,
+       tela_id              serial NOT NULL,
+       usuariocamp_acesso      boolean NULL,
+       PRIMARY KEY (usuario_id, camp_id, tela_id), 
+       FOREIGN KEY (camp_id, tela_id)
+                             REFERENCES campo, 
+       FOREIGN KEY (usuario_id)
+                             REFERENCES usuario
+)
+;
+
+
+CREATE TABLE digital (
+       dig_cod              serial NOT NULL,
+       alu_id               integer null,
+       func_id              integer null,
+       dig_status           boolean NULL,
+       dig_contents         character varying(100) NULL,
+       PRIMARY KEY (dig_cod), 
+       FOREIGN KEY (alu_id)
+                             REFERENCES aluno, 
+       FOREIGN KEY (func_id)
+                             REFERENCES funcionario
+)
+;
+
+
+CREATE TABLE catraca (
+       cat_id               serial NOT NULL,
+       dig_cod              integer null,
+       cat_entr             timestamp NULL,
+       cat_sai              timestamp NULL,
+       PRIMARY KEY (cat_id), 
+       FOREIGN KEY (dig_cod)
+                             REFERENCES digital
+)
+;
+
+
+CREATE TABLE modalidade (
+       mod_id               serial NOT NULL,
+       mod_desc             character varying(100) NOT NULL,
+       mod_valorm           money NULL,
+       mod_valord           money NULL,
+       PRIMARY KEY (mod_id)
+)
+;
+
+
+CREATE TABLE matricula (
+       mat_cod              serial NOT NULL,
+       mod_id               integer null,
+       alu_id               integer null,
+       mat_dtvcmto          numeric NULL,
+       mat_tolerancia       numeric NULL,
+       mat_tipo             character NULL,
+       mat_qtdedias         numeric NULL,
+       mat_dtini            date NULL,
+       mat_dtfim            date NULL,
+       mat_obs              character varying(100) NULL,
+       PRIMARY KEY (mat_cod), 
+       FOREIGN KEY (mod_id)
+                             REFERENCES modalidade, 
+       FOREIGN KEY (alu_id)
+                             REFERENCES aluno
+)
+;
+
+
+CREATE TABLE exercicio (
+       exe_id               serial NOT NULL,
+       exe_desc             character varying(100) NOT NULL,
+       exe_area             character varying(100) NULL,
+       PRIMARY KEY (exe_id)
+)
+;
+
+CREATE TABLE anamnese( 
+	ana_id               serial  NOT NULL ,
+	prob_card            character varying(100)  NULL ,
+	prob_orto            character varying(100)  NULL ,
+	prob_neuro           character varying(100)  NULL ,
+	prob_gastro          character varying(100)  NULL ,
+	prob_resp            character varying(100)  NULL ,
+	prob_desc            character varying(100)  NULL ,
+	fumante              character varying(100)  NULL ,
+	fumante_ex           character varying(100)  NULL ,
+	diabetico            character varying(100)  NULL ,
+	diabete_familia      character varying(100)  NULL ,
+	gestante             character varying(100)  NULL ,
+	alergia              character varying(100)  NULL ,
+	tontura              character varying(100)  NULL ,
+	vertigem             character varying(100)  NULL ,
+	osteoporose          character varying(100)  NULL ,
+	hipertenso           character varying(100)  NULL ,
+	bebida               character varying(100)  NULL ,
+	infarto_familia      character varying(100)  NULL ,
+	medicamento          character varying(100)  NULL ,
+	cirurgia             character varying(100)  NULL ,
+	dores                character varying(100)  NULL ,
+	estado_geral         character varying(100)  NULL ,
+	refeicoes            character varying(100)  NULL ,
+	atividade_fisica     character varying(100)  NULL ,
+	partes_corpo         character varying(100)  NULL ,
+	objetivo             character varying(100)  NULL ,
+	PRIMARY KEY (ana_id)
+)
+;
+
+CREATE TABLE perimetro
+( 
+	per_id               serial  NOT NULL ,
+	pescoco              numeric  NULL ,
+	ombro                numeric  NULL ,
+	braco_relax_e        numeric  NULL ,
+	braco_relax_d        numeric  NULL ,
+	braco_contra_e       numeric  NULL ,
+	braco_contra_d       numeric  NULL ,
+	antebraco_e          numeric  NULL ,
+	antebraco_d          numeric  NULL ,
+	torax_relax          numeric  NULL ,
+	torax_inspirado       numeric  NULL ,
+	cintura              numeric  NULL ,
+	abdome               numeric  NULL ,
+	quadril              numeric  NULL ,
+	coxa_e               numeric  NULL ,
+	coxa_d               numeric  NULL ,
+	panturrilha_e        numeric  NULL ,
+	panturrilha_d        numeric  NULL ,
+	per_rcq				 numeric NULL ,
+	per_rcq_legenda	     character varying(100) NULL,
+	PRIMARY KEY (per_id)
+)
+;
+
+CREATE TABLE composicao
+( 
+	comp_id              serial  NOT NULL ,
+	comp_peso            numeric  NULL ,
+	comp_altura          numeric  NULL ,
+	comp_imc             numeric  NULL ,
+	comp_subescapular    numeric  NULL ,
+	comp_tricipital      numeric  NULL ,
+	comp_axilar          numeric  NULL ,
+	comp_supra           numeric  NULL ,
+	comp_peitoral        numeric  NULL ,
+	comp_abdominal       numeric  NULL ,
+	comp_coxa            numeric  NULL ,
+	comp_protocolo       character varying(30)  NULL ,
+	comp_gordura_i       numeric  NULL ,
+	comp_gordura_a       numeric  NULL ,
+	comp_massa_m         numeric  NULL ,
+	comp_massa_g         numeric  NULL ,
+	comp_imc_legenda     character varying(100) NULL,
+	PRIMARY KEY (comp_id)
+)
+;
+
+CREATE TABLE neuromotor
+( 
+	neuro_id             		serial  NOT NULL ,
+	neuro_flexao         		numeric  NULL ,
+	neuro_abdominal      		numeric  NULL ,
+	neuro_banco_wells    		numeric  NULL ,
+	neuro_flexao_legenda 		character varying(100) NULL,
+	neuro_abdominal_legenda 	character varying(100) NULL,
+	neuro_wells_legenda			character varying(100) NULL,
+	PRIMARY KEY (neuro_id)
+)
+;
+
+CREATE TABLE avaliacao (
+       ava_id               serial NOT NULL,
+       alu_id               integer null,
+       func_id              integer null,
+	   ana_id				integer null,
+       ava_dtagend          timestamp NOT NULL,
+       ava_dtrealiz         timestamp NULL,
+	   per_id				integer null,
+	   comp_id				integer null,
+	   neuro_id				integer null,
+       PRIMARY KEY (ava_id), 
+       FOREIGN KEY (alu_id)
+                             REFERENCES aluno, 
+       FOREIGN KEY (func_id)
+                             REFERENCES funcionario,
+	   FOREIGN KEY (ana_id)
+							 REFERENCES anamnese,
+	   FOREIGN KEY (per_id)
+							 REFERENCES perimetro,
+	   FOREIGN KEY (comp_id)
+							 REFERENCES composicao,
+	   FOREIGN KEY (neuro_id)
+							 REFERENCES neuromotor
+)
+;
+
+
+CREATE TABLE ficha (
+       ava_id               integer null,
+       ficha_cod            serial NOT NULL,
+       ficha_status         boolean NULL,
+       ficha_finalidade     character varying(100) NULL,
+       ficha_dtini          date NULL,
+       ficha_dtfim          date NULL,
+       PRIMARY KEY (ficha_cod), 
+       FOREIGN KEY (ava_id)
+                             REFERENCES avaliacao
+)
+;
+
+
+CREATE TABLE treino (
+       trei_id              serial NOT NULL,
+       ficha_cod            serial NOT NULL,
+       trei_desc            character NULL,
+       exe_id               integer null,
+       qtdrep               numeric NULL,
+       carga                numeric NULL,
+       serie                numeric NULL,
+       tempo                numeric NULL,
+       PRIMARY KEY (trei_id, ficha_cod), 
+       FOREIGN KEY (exe_id)
+                             REFERENCES exercicio, 
+       FOREIGN KEY (ficha_cod)
+                             REFERENCES ficha
+)
+;
+
+
+CREATE TABLE dados_empresa (
+       cnpj                 character varying(100) NOT NULL,
+       razaosocial          character varying(100) NULL,
+       nomefantasia         character varying(50) NULL,
+       proprietario         character varying(60) NULL,
+       site                 character varying(100) NULL,
+       email                character varying(100) NULL,
+       rua                  character varying(100) NULL,
+       bairro               character varying(30) NULL,
+       numero               character varying(10) NULL,
+       cep                  character varying(8) NULL,
+       cid_cod              integer null,
+       tel                  character varying(12) NULL,
+       PRIMARY KEY (cnpj), 
+       FOREIGN KEY (cid_cod)
+                             REFERENCES cidade
+)
+;
+
+
+CREATE TABLE caixa (
+       cai_data             date NOT NULL,
+       cai_horaabertura     timestamp NULL,
+       cai_horafechamento   timestamp NULL,
+       cai_valorini         money NULL,
+       cai_valorfin         money NULL,
+       cai_userabriu        integer null,
+       cai_userfechou	    integer null,
+       PRIMARY KEY (cai_data),
+	   FOREIGN KEY (cai_userabriu)
+                             REFERENCES acesso,
+	   FOREIGN KEY (cai_userfechou)
+                             REFERENCES acesso
+)
+;
+
+
+CREATE TABLE saida (
+       sai_id               serial NOT NULL,
+       acess_id             integer null,
+       cai_data             date NULL,
+       sai_valor            money NOT NULL,
+       sai_desc             character varying(100) NOT NULL,
+       PRIMARY KEY (sai_id), 
+       FOREIGN KEY (acess_id)
+                             REFERENCES acesso, 
+       FOREIGN KEY (cai_data)
+                             REFERENCES caixa
+)
+;
+
+
+CREATE TABLE entrada (
+       ent_id               serial NOT NULL,
+       mat_cod              integer null,
+       ven_cod              integer null,
+       cai_data             date NULL,
+       acess_id             integer null,
+       ent_valor            money NOT NULL,
+       ent_desc             character varying(100) NULL,
+       PRIMARY KEY (ent_id), 
+       FOREIGN KEY (mat_cod)
+                             REFERENCES matricula, 
+       FOREIGN KEY (ven_cod)
+                             REFERENCES venda, 
+       FOREIGN KEY (cai_data)
+                             REFERENCES caixa, 
+       FOREIGN KEY (acess_id)
+                             REFERENCES acesso
+)
+;
+
+
+CREATE TABLE despesa (
+       desp_id              serial NOT NULL,
+       desp_desc            character varying(100) NOT NULL,
+       desp_valor           money NULL,
+       desp_dtpg            date NULL,
+       desp_dtvenc          date NULL,
+       desp_valorpg         money NULL,
+       PRIMARY KEY (desp_id)
+)
+;
+
+
+

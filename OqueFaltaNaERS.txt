@@ -1,0 +1,4 @@
+
+-Rever campos de informação das funções básicas, 
+comparar com o que foi implementado
+

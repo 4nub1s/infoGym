@@ -1,0 +1,12 @@
+http://www.mitov.com/screenshots/videolab
+
+
+componentes: 
+
+dsImageDisplay
+dsCapture
+genericFilter
+
+Como:
+OutputPin do dsCapture vai ser a entrada do genericFilter
+e a entrada do dsImageDisplay será a saída do genericFilter

@@ -1,0 +1,12 @@
+bco.conecta();
+bco.begintransaction();
+funcA();
+funcB();
+funcC();
+try{
+   bco.endtransaction();
+}
+catch{
+   bco.rollback();
+}
+bco.desconecta();

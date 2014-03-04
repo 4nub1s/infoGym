@@ -1,0 +1,4 @@
+RF_F5: Gerenciar Ficha de treinamento: esta função tem por objetivo controlar os dados das fichas de treinamento dos alunos da modalidade de musculação. Para o preenchimento desta função serão necessários os seguintes campos: nome do aluno, finalidade do treino, data início, data fim, aparelho aquecimento, tempo aquecimento, descrição exercício, série, repetições, carga e quantidade de treinos da ficha.
+
+
+RF_F7: Controlar Presença de Alunos: esta função tem por objetivo controlar, por meio da catraca, o quadro de frequência dos alunos e também bloquear a entrada de alunos em inadimplência.  Para o preenchimento desta função serão necessários os seguintes campos: código identificador do aluno gerado pelo leitor biométrico da catraca.

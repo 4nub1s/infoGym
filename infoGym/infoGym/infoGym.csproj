@@ -1,0 +1,894 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4674945C-490B-440D-8532-04EB99B35CAF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>infoGym</RootNamespace>
+    <AssemblyName>infoGym</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Mitov.AudioLabBasic, Version=6.0.0.0, Culture=neutral, PublicKeyToken=d6082b20afed4658, processorArchitecture=MSIL" />
+    <Reference Include="Mitov.BasicLab, Version=6.0.0.0, Culture=neutral, PublicKeyToken=54b8a1f38c94221a, processorArchitecture=MSIL" />
+    <Reference Include="Mitov.VideoLab, Version=6.0.0.0, Culture=neutral, PublicKeyToken=512abbffa6df84b7, processorArchitecture=MSIL" />
+    <Reference Include="Mitov.VideoLabAdditional, Version=6.0.0.0, Culture=neutral, PublicKeyToken=e68714b663eed565, processorArchitecture=MSIL" />
+    <Reference Include="Mitov.VideoLabBasic, Version=6.0.0.0, Culture=neutral, PublicKeyToken=d935a24be4cfabe3, processorArchitecture=MSIL" />
+    <Reference Include="Mono.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.0.12.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="policy.2.0.Npgsql, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\policy.2.0.Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VideoLabBasic, Version=4.5.0.0, Culture=neutral, PublicKeyToken=d935a24be4cfabe3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BD\AlunoBD.cs" />
+    <Compile Include="Classes\BD\AnamneseBD.cs" />
+    <Compile Include="Classes\BD\AvaliacaoBD.cs" />
+    <Compile Include="Classes\BD\Banco.cs" />
+    <Compile Include="Classes\BD\BancoBackup.cs" />
+    <Compile Include="Classes\BD\CaixaBD.cs" />
+    <Compile Include="Classes\BD\ComposicaoBD.cs" />
+    <Compile Include="Classes\BD\DespesaBD.cs" />
+    <Compile Include="Classes\BD\NeuromotorBD.cs" />
+    <Compile Include="Classes\BD\PerimetroBD.cs" />
+    <Compile Include="Classes\Negocio\Anamnese.cs" />
+    <Compile Include="Classes\Negocio\Avaliacao.cs" />
+    <Compile Include="Classes\Negocio\Composicao.cs" />
+    <Compile Include="Classes\Negocio\Despesa.cs" />
+    <Compile Include="Classes\BD\EmpresaBD.cs" />
+    <Compile Include="Classes\BD\ExercicioBD.cs" />
+    <Compile Include="Classes\BD\FornecedorBD.cs" />
+    <Compile Include="Classes\BD\FuncionarioBD.cs" />
+    <Compile Include="Classes\BD\MatriculaBD.cs" />
+    <Compile Include="Classes\BD\ModalidadeBD.cs" />
+    <Compile Include="Classes\BD\MovimentacaoBD.cs" />
+    <Compile Include="Classes\BD\ProdutoBD.cs" />
+    <Compile Include="Classes\BD\TermoBD.cs" />
+    <Compile Include="Classes\BD\UsuarioBD.cs" />
+    <Compile Include="Classes\BD\VendaBD.cs" />
+    <Compile Include="Classes\Negocio\Aluno.cs" />
+    <Compile Include="Classes\Negocio\Caixa.cs" />
+    <Compile Include="Classes\Negocio\Empresa.cs" />
+    <Compile Include="Classes\Negocio\Exercicio.cs" />
+    <Compile Include="Classes\Negocio\Fornecedor.cs" />
+    <Compile Include="Classes\Negocio\Funcionario.cs" />
+    <Compile Include="Classes\Negocio\ItensVenda.cs" />
+    <Compile Include="Classes\Negocio\Matricula.cs" />
+    <Compile Include="Classes\Negocio\Modalidade.cs" />
+    <Compile Include="Classes\Negocio\Movimentacao.cs" />
+    <Compile Include="Classes\Negocio\Neuromotor.cs" />
+    <Compile Include="Classes\Negocio\Perimetro.cs" />
+    <Compile Include="Classes\Negocio\Produto.cs" />
+    <Compile Include="Classes\Negocio\Termo.cs" />
+    <Compile Include="Classes\Negocio\Usuario.cs" />
+    <Compile Include="Classes\Negocio\Utils.cs" />
+    <Compile Include="Classes\Negocio\Venda.cs" />
+    <Compile Include="frms\frmAgendaAvControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmAgendaAvControlar.Designer.cs">
+      <DependentUpon>frmAgendaAvControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmAgendaAvNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmAgendaAvNova.Designer.cs">
+      <DependentUpon>frmAgendaAvNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmAvaliacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmAvaliacao.Designer.cs">
+      <DependentUpon>frmAvaliacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmBackupGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmBackupGerenciar.Designer.cs">
+      <DependentUpon>frmBackupGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmBackupRestaurar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmBackupRestaurar.Designer.cs">
+      <DependentUpon>frmBackupRestaurar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmBackupRealizar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmBackupRealizar.Designer.cs">
+      <DependentUpon>frmBackupRealizar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmCaixaNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmCaixaNovo.Designer.cs">
+      <DependentUpon>frmCaixaNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmClick.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmClick.designer.cs">
+      <DependentUpon>frmClick.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmAluGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmAluGerenciar.Designer.cs">
+      <DependentUpon>frmAluGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmAluNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmAluNovo.Designer.cs">
+      <DependentUpon>frmAluNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmCaixaFechar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmCaixaFechar.Designer.cs">
+      <DependentUpon>frmCaixaFechar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmCaixaControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmCaixaControlar.Designer.cs">
+      <DependentUpon>frmCaixaControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmDespesaControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmDespesaControlar.Designer.cs">
+      <DependentUpon>frmDespesaControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmDespesaNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmDespesaNova.Designer.cs">
+      <DependentUpon>frmDespesaNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmDiariaPgmto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmDiariaPgmto.Designer.cs">
+      <DependentUpon>frmDiariaPgmto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmEmpresa.Designer.cs">
+      <DependentUpon>frmEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmEntradaSaida.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmEntradaSaida.Designer.cs">
+      <DependentUpon>frmEntradaSaida.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmExeGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmExeGerenciar.Designer.cs">
+      <DependentUpon>frmExeGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmExeNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmExeNovo.Designer.cs">
+      <DependentUpon>frmExeNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFichaControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFichaControlar.Designer.cs">
+      <DependentUpon>frmFichaControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFichaItemTreino.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFichaItemTreino.Designer.cs">
+      <DependentUpon>frmFichaItemTreino.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFichaItemTreinoNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFichaItemTreinoNovo.Designer.cs">
+      <DependentUpon>frmFichaItemTreinoNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFichaNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFichaNova.Designer.cs">
+      <DependentUpon>frmFichaNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFornGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFornGerenciar.Designer.cs">
+      <DependentUpon>frmFornGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFornNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFornNovo.Designer.cs">
+      <DependentUpon>frmFornNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFuncGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFuncGerenciar.Designer.cs">
+      <DependentUpon>frmFuncGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmFuncNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmFuncNovo.Designer.cs">
+      <DependentUpon>frmFuncNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmMatriculaControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmMatriculaControlar.Designer.cs">
+      <DependentUpon>frmMatriculaControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmMatriculaNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmMatriculaNova.Designer.cs">
+      <DependentUpon>frmMatriculaNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmMensalidadeControlarcs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmMensalidadeControlarcs.Designer.cs">
+      <DependentUpon>frmMensalidadeControlarcs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmMensalidadePgmto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmMensalidadePgmto.Designer.cs">
+      <DependentUpon>frmMensalidadePgmto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmProdGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmProdGerenciar.Designer.cs">
+      <DependentUpon>frmProdGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmModGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmModGerenciar.Designer.cs">
+      <DependentUpon>frmModGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmModNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmModNova.Designer.cs">
+      <DependentUpon>frmModNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmProdNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmProdNovo.Designer.cs">
+      <DependentUpon>frmProdNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelatorioAluno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelatorioAluno.Designer.cs">
+      <DependentUpon>frmRelatorioAluno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelAvaliacoesFisicas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelAvaliacoesFisicas.Designer.cs">
+      <DependentUpon>frmRelAvaliacoesFisicas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelCaixa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelCaixa.Designer.cs">
+      <DependentUpon>frmRelCaixa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelDespesas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelDespesas.Designer.cs">
+      <DependentUpon>frmRelDespesas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelFornecedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelFornecedores.Designer.cs">
+      <DependentUpon>frmRelFornecedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelFuncionario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelFuncionario.Designer.cs">
+      <DependentUpon>frmRelFuncionario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelMensalidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelMensalidades.Designer.cs">
+      <DependentUpon>frmRelMensalidades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelModalidade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelModalidade.Designer.cs">
+      <DependentUpon>frmRelModalidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmRelProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmRelProduto.Designer.cs">
+      <DependentUpon>frmRelProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmTermoAnamnese.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmTermoAnamnese.Designer.cs">
+      <DependentUpon>frmTermoAnamnese.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmTermoControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmTermoControlar.Designer.cs">
+      <DependentUpon>frmTermoControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmTermoNovo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmTermoNovo.Designer.cs">
+      <DependentUpon>frmTermoNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserBloq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserBloq.Designer.cs">
+      <DependentUpon>frmUserBloq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserConexoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserConexoes.Designer.cs">
+      <DependentUpon>frmUserConexoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserPerm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserPerm.Designer.cs">
+      <DependentUpon>frmUserPerm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserGerenciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserGerenciar.Designer.cs">
+      <DependentUpon>frmUserGerenciar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserCad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserCad.Designer.cs">
+      <DependentUpon>frmUserCad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserOpcoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserOpcoes.Designer.cs">
+      <DependentUpon>frmUserOpcoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmUserAlteraSenha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmUserAlteraSenha.Designer.cs">
+      <DependentUpon>frmUserAlteraSenha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmVendaControlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmVendaControlar.Designer.cs">
+      <DependentUpon>frmVendaControlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frms\frmVendaNova.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frms\frmVendaNova.Designer.cs">
+      <DependentUpon>frmVendaNova.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frms\frmAgendaAvControlar.resx">
+      <DependentUpon>frmAgendaAvControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmAgendaAvNova.resx">
+      <DependentUpon>frmAgendaAvNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmAvaliacao.resx">
+      <DependentUpon>frmAvaliacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmBackupGerenciar.resx">
+      <DependentUpon>frmBackupGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmBackupRestaurar.resx">
+      <DependentUpon>frmBackupRestaurar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmBackupRealizar.resx">
+      <DependentUpon>frmBackupRealizar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmCaixaNovo.resx">
+      <DependentUpon>frmCaixaNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmClick.resx">
+      <DependentUpon>frmClick.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmAluGerenciar.resx">
+      <DependentUpon>frmAluGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmAluNovo.resx">
+      <DependentUpon>frmAluNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmCaixaFechar.resx">
+      <DependentUpon>frmCaixaFechar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmCaixaControlar.resx">
+      <DependentUpon>frmCaixaControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmDespesaControlar.resx">
+      <DependentUpon>frmDespesaControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmDespesaNova.resx">
+      <DependentUpon>frmDespesaNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmDiariaPgmto.resx">
+      <DependentUpon>frmDiariaPgmto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmEmpresa.resx">
+      <DependentUpon>frmEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmEntradaSaida.resx">
+      <DependentUpon>frmEntradaSaida.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmExeGerenciar.resx">
+      <DependentUpon>frmExeGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmExeNovo.resx">
+      <DependentUpon>frmExeNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFichaControlar.resx">
+      <DependentUpon>frmFichaControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFichaItemTreino.resx">
+      <DependentUpon>frmFichaItemTreino.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFichaItemTreinoNovo.resx">
+      <DependentUpon>frmFichaItemTreinoNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFichaNova.resx">
+      <DependentUpon>frmFichaNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFornGerenciar.resx">
+      <DependentUpon>frmFornGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFornNovo.resx">
+      <DependentUpon>frmFornNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFuncGerenciar.resx">
+      <DependentUpon>frmFuncGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmFuncNovo.resx">
+      <DependentUpon>frmFuncNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmMatriculaControlar.resx">
+      <DependentUpon>frmMatriculaControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmMatriculaNova.resx">
+      <DependentUpon>frmMatriculaNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmMensalidadeControlarcs.resx">
+      <DependentUpon>frmMensalidadeControlarcs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmMensalidadePgmto.resx">
+      <DependentUpon>frmMensalidadePgmto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmProdGerenciar.resx">
+      <DependentUpon>frmProdGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmModGerenciar.resx">
+      <DependentUpon>frmModGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmModNova.resx">
+      <DependentUpon>frmModNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmPrincipal.resx">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmProdNovo.resx">
+      <DependentUpon>frmProdNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelatorioAluno.resx">
+      <DependentUpon>frmRelatorioAluno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelAvaliacoesFisicas.resx">
+      <DependentUpon>frmRelAvaliacoesFisicas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelCaixa.resx">
+      <DependentUpon>frmRelCaixa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelDespesas.resx">
+      <DependentUpon>frmRelDespesas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelFornecedores.resx">
+      <DependentUpon>frmRelFornecedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelFuncionario.resx">
+      <DependentUpon>frmRelFuncionario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelMensalidades.resx">
+      <DependentUpon>frmRelMensalidades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelModalidade.resx">
+      <DependentUpon>frmRelModalidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmRelProduto.resx">
+      <DependentUpon>frmRelProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmTermoAnamnese.resx">
+      <DependentUpon>frmTermoAnamnese.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmTermoControlar.resx">
+      <DependentUpon>frmTermoControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmTermoNovo.resx">
+      <DependentUpon>frmTermoNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserBloq.resx">
+      <DependentUpon>frmUserBloq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserConexoes.resx">
+      <DependentUpon>frmUserConexoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserPerm.resx">
+      <DependentUpon>frmUserPerm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserGerenciar.resx">
+      <DependentUpon>frmUserGerenciar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserCad.resx">
+      <DependentUpon>frmUserCad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserOpcoes.resx">
+      <DependentUpon>frmUserOpcoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmUserAlteraSenha.resx">
+      <DependentUpon>frmUserAlteraSenha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmVendaControlar.resx">
+      <DependentUpon>frmVendaControlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frms\frmVendaNova.resx">
+      <DependentUpon>frmVendaNova.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\caixa.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\termoAss.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AccessibilityCplAdminLib">
+      <Guid>{714DD4F6-7676-4BDE-925A-C2FEC2073F36}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\padlock-open_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6420_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redo_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pictures_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-image_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pictures_48x481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\396_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-paste_003.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imageres.dll_I00b2_0409.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\33_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1441_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CRISTAL KEY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icone_digital1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users_two_add_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_add_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\workout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\workout1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1552_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\provider_icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clients_client_user_male_earth-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clients_client_user_male_earth-241.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\product-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\payment_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_add_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\creditcard_mastercard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Índice.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-to-basket_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icone_cadastro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\accepted_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\accepted_481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\agenda.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\agenda.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\agenda1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excluirP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6031_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app_481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\termoAvaliacao.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdrwblank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdwriter_unmount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdwriter_unmount1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdrom_unmount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdrom_mount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdrom_unmount1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cdrom_mount1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

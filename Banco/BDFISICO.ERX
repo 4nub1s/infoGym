@@ -1,0 +1,2064 @@
+/* Logic Works ERwin/ERX 3.0 */
+/*
+CREATE TABLE ERW_TEXT
+      (ERWIN_TEXT_ID            INTEGER NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       ERWIN_TEXT_VALUE         VARCHAR(255)
+);
+*/
+83978384,0,"aluno"
+83988504,0,"funcionario"
+84000992,0,"produto"
+84006408,0,"modalidade"
+84010216,0,"fornecedor"
+107482344,0,"exercicio"
+107485536,0,"avaliacao"
+107494552,0,"ficha"
+107500008,0,"despesa"
+107505072,0,"caixa"
+107511640,0,"entrada"
+107518928,0,"saida"
+107524184,0,"dados_empresa"
+107534024,0,"estado"
+107536632,0,"cidade"
+107540256,0,"treino"
+109644760,0,"matricula"
+109653056,0,"catraca"
+109657264,0,"usuario"
+109661248,0,"tela"
+109663848,0,"campo"
+109667688,0,"user_campo"
+109672856,0,"acesso"
+83974168,0,"digital"
+109677088,0,"venda"
+109682288,0,"venda_produto"
+109686888,0,"termo"
+61914952,0,"CURRENT_TIMESTAMP"
+83956304,0,"CURRENT_USER"
+83956112,0,"spaces"
+61914936,0,"NULL"
+61884336,0,"SESSION_USER"
+61915016,0,"empty"
+83956080,0,"null"
+61907776,0,"0"
+61925632,0,"USER"
+83956048,0,""
+83956064,0,""
+84420536,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON PARENT UPDATE RESTRICT */\n  if\n    /* %%ParentPK(\" or\",update) */\n    %ParentPK(\" or\",update)\n  begin\n    if exists (\n      select * from deleted,%Child\n      where\n        /*  %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n    )\n    begin\n      select @errno  = 30005,\n             @errmsg = 'Cannot UPDATE \"%Parent\" because \"%Child\" exists.'\n      goto error\n    end\n  end\n"
+84413320,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON PARENT UPDATE CASCADE */\n  if\n    /* %%ParentPK(\" or\",update) */\n    %ParentPK(\" or\",update)\n  begin\n    if @numrows = 1\n    begin\n      select %JoinPKPK(@ins,inserted,\" = \",\", \")\n        from inserted\n      update %Child\n      set\n        /*  %%JoinFKPK(%Child,@ins,\" = \",\",\") */\n        %JoinFKPK(%Child,@ins,\" = \",\",\")\n      from %Child,inserted,deleted\n      where\n        /*  %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n    end\n    else\n    begin\n      select @errno = 30006,\n             @errmsg = 'Cannot cascade \"%Parent\" UPDATE because more than one row has been affected.'\n      goto error\n    end\n  end\n"
+84412888,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON PARENT UPDATE SET NULL */\n  if\n    /* %%ParentPK(\" or\",update) */\n    %ParentPK(\" or\",update)\n  begin\n    update %Child\n      set\n        /* %%SetFK(%Child,NULL) */\n        %SetFK(%Child,NULL)\n      from %Child,deleted\n      where\n        /* %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n  end\n"
+84412456,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON PARENT DELETE RESTRICT */\n    if exists (\n      select * from deleted,%Child\n      where\n        /*  %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n    )\n    begin\n      select @errno  = 30001,\n             @errmsg = 'Cannot DELETE \"%Parent\" because \"%Child\" exists.'\n      goto error\n    end\n"
+84412184,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON PARENT DELETE CASCADE */\n    delete %Child\n      from %Child,deleted\n      where\n        /*  %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n"
+84411832,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON PARENT DELETE SET NULL */\n    update %Child\n      set\n        /* %%SetFK(%Child,NULL) */\n        %SetFK(%Child,NULL)\n      from %Child,deleted\n      where\n        /* %%JoinFKPK(%Child,deleted,\" = \",\" and\") */\n        %JoinFKPK(%Child,deleted,\" = \",\" and\")\n"
+84411064,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD INSERT RESTRICT */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    select @nullcnt = 0\n    select @validcnt = count(*)\n      from inserted,%Parent\n        where\n          /* %%JoinFKPK(inserted,%Parent) */\n          %JoinFKPK(inserted,%Parent)\n    /* %%NotnullFK(inserted,\" is null\",\"select @nullcnt = count(*) from inserted where\",\" and\") */\n    %NotnullFK(inserted,\" is null\",\"select @nullcnt = count(*) from inserted where\",\" and\")\n    if @validcnt + @nullcnt != @numrows\n    begin\n      select @errno  = 30002,\n             @errmsg = 'Cannot INSERT \"%Child\" because \"%Parent\" does not exist.'\n      goto error\n    end\n  end\n"
+84410464,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD INSERT CASCADE */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    insert %Parent (%ParentPK(\",\",))\n      select %ChildFK(\",\",)\n      from   inserted\n      where\n        /* %%NotnullFK(inserted,\" is not null and\") */\n        %NotnullFK(inserted,\" is not null and\")\n        not exists (\n          select * from %Parent\n          where\n            /* %%JoinFKPK(inserted,%Parent,\" = \",\" and\") */\n            %JoinFKPK(inserted,%Parent,\" = \",\" and\")\n        )\n  end\n"
+84345968,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD INSERT SET NULL */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    update %Child\n      set\n        /* %%SetFK(%Child,NULL) */\n        %SetFK(%Child,NULL)\n      from %Child,inserted\n      where\n        /* %%JoinPKPK(%Child,inserted,\" = \",\" and\") */\n        %JoinPKPK(%Child,inserted,\" = \",\" and\") and\n        not exists (\n          select * from %Parent\n          where\n            /* %%JoinFKPK(inserted,%Parent,\" = \",\" and\") */\n            %JoinFKPK(inserted,%Parent,\" = \",\" and\")\n        )\n  end\n"
+84357888,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD UPDATE RESTRICT */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    select @nullcnt = 0\n    select @validcnt = count(*)\n      from inserted,%Parent\n        where\n          /* %%JoinFKPK(inserted,%Parent) */\n          %JoinFKPK(inserted,%Parent)\n    /* %%NotnullFK(inserted,\" is null\",\"select @nullcnt = count(*) from inserted where\",\" and\") */\n    %NotnullFK(inserted,\" is null\",\"select @nullcnt = count(*) from inserted where\",\" and\")\n    if @validcnt + @nullcnt != @numrows\n    begin\n      select @errno  = 30007,\n             @errmsg = 'Cannot UPDATE \"%Child\" because \"%Parent\" does not exist.'\n      goto error\n    end\n  end\n"
+84359288,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD UPDATE CASCADE */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    insert %Parent (%ParentPK(\",\",))\n      select %ChildFK(\",\",)\n      from   inserted\n      where\n        /* %%NotnullFK(inserted,\" is not null and\") */\n        %NotnullFK(inserted,\" is not null and\")\n        not exists (\n          select * from %Parent\n          where\n            /* %%JoinFKPK(inserted,%Parent,\" = \",\" and\") */\n            %JoinFKPK(inserted,%Parent,\" = \",\" and\")\n        )\n  end\n"
+84348576,0,"  /* ERwin Builtin %Datetime */\n  /* %Parent %VerbPhrase %Child ON CHILD UPDATE SET NULL */\n  if\n    /* %%ChildFK(\" or\",update) */\n    %ChildFK(\" or\",update)\n  begin\n    update %Child\n      set\n        /* %%SetFK(%Child,NULL) */\n        %SetFK(%Child,NULL)\n      from %Child,inserted\n      where\n        /* %%JoinPKPK(%Child,inserted,\" = \",\" and\") */\n        %JoinPKPK(%Child,inserted,\" = \",\" and\") and \n        not exists (\n          select * from %Parent\n          where\n            /* %%JoinFKPK(inserted,%Parent,\" = \",\" and\") */\n            %JoinFKPK(inserted,%Parent,\" = \",\" and\")\n        )\n  end\n"
+84349848,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON CHILD DELETE RESTRICT */\n    if exists (select * from deleted,%Parent\n      where\n        /* %%JoinFKPK(deleted,%Parent,\" = \",\" and\") */\n        %JoinFKPK(deleted,%Parent,\" = \",\" and\") and\n        not exists (\n          select * from %Child\n          where\n            /* %%JoinFKPK(%Child,%Parent,\" = \",\" and\") */\n            %JoinFKPK(%Child,%Parent,\" = \",\" and\")\n        )\n    )\n    begin\n      select @errno  = 30010,\n             @errmsg = 'Cannot DELETE last \"%Child\" because \"%Parent\" exists.'\n      goto error\n    end\n"
+84351232,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON CHILD DELETE CASCADE */\n    delete %Parent\n      from %Parent,deleted\n      where\n        /* %%JoinFKPK(deleted,%Parent,\" = \",\" and\") */\n        %JoinFKPK(deleted,%Parent,\" = \",\" and\") and\n        not exists (\n          select * from %Child\n          where\n            /* %%JoinFKPK(%Child,%Parent,\" = \",\" and\") */\n            %JoinFKPK(%Child,%Parent,\" = \",\" and\")\n        )\n"
+84352592,0,"    /* ERwin Builtin %Datetime */\n    /* %Parent %VerbPhrase %Child ON PARENT INSERT RESTRICT */\n    if exists (select * from inserted\n      where not exists (\n          select * from %Child\n          where\n            /* %%JoinFKPK(%Child,inserted,\" = \",\" and\") */\n            %JoinFKPK(%Child,inserted,\" = \",\" and\")\n      )\n    )\n    begin\n      select @errno  = 30011,\n             @errmsg = 'Cannot INSERT \"%Parent\" because \"%Child\" does not.'\n      goto error\n    end\n"
+84355472,0,"create trigger t%1Action_%27TableName on %TableName for %Action as\n/* ERwin Builtin %Datetime */\n/* %Action trigger on %TableName */\nbegin\n  declare  @numrows int,\n           @nullcnt int,\n           @validcnt int,\n           %PKDecl(,@ins)%decl(bComma,0)%ForEachAtt() {%if(%AttIsPk) {%=(bComma,1)} }%if (%==(%:bComma,1)) {,}\n           @errno   int,\n           @errmsg  varchar(255)\n\n  select @numrows = @@rowcount"
+83956984,0,"  /* ERwin Builtin %Datetime */\n  return\nerror:\n    raiserror @errno @errmsg\n    rollback transaction\nend\ngo\n"
+83956576,0,"create trigger t%1Action_%27TableName on %TableName for %Action as\n/* ERwin Builtin %Datetime */\n/* %Action trigger on %TableName */\nbegin\n  declare  @errno   int,\n           @errmsg  varchar(255)"
+61904744,0,"    /* ERwin Builtin %Datetime */\n    return\nerror:\n    raiserror @errno @errmsg\n    rollback transaction\nend\ngo\n"
+84356792,0,"create trigger t%1Action_%27TableName on %TableName for %Action as\n/* ERwin Builtin %Datetime */\n/* %Action trigger on %TableName */\nbegin\n  declare  @numrows int,\n           @nullcnt int,\n           @validcnt int,\n           @errno   int,\n           @errmsg  varchar(255)\n\n  select @numrows = @@rowcount"
+61926584,0,"  /* ERwin Builtin %Datetime */\n  return\nerror:\n    raiserror @errno @errmsg\n    rollback transaction\nend\ngo\n"
+61927088,0,"create trigger %TriggerName on %TableName\n  for %Actions(\",\")\n  as\n"
+61912536,0,"go\n"
+75242120,0,"create trigger %TriggerName on %TableName\n  for %Actions(\",\")\n  as\n/* ERwin Builtin %Datetime */\n/* %Actions(\",\") trigger on %TableName */\n/* default body for %TriggerName */\nbegin\n  declare  @numrows int,\n           @nullcnt int,\n           @validcnt int,\n           %PKDecl(,@ins)%decl(bComma,0)%ForEachAtt() {%if(%AttIsPk) {%=(bComma,1)} }%if (%==(%:bComma,1)) {,}\n           @errno   int,\n           @errmsg  varchar(255)\n\n  select @numrows = @@rowcount\n%ForEachChildRel() {\n  %RelTemplate\n}\n%ForEachParentRel() {\n  %RelTemplate\n}\n  return\nerror:\n    raiserror @errno @errmsg\n    rollback transaction\nend\ngo\n"
+61912576,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON PARENT UPDATE SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+61913040,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON PARENT DELETE SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+61913280,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON PARENT INSERT SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+61913520,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON CHILD INSERT SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+61913760,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON CHILD UPDATE SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+61914000,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON CHILD DELETE SET DEFAULT */\n/* Application specific.  Left out intentionally. */"
+83961424,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON CHILD DELETE SET NULL */\n/* Application specific.  Left out intentionally. */"
+61914440,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON PARENT INSERT SET NULL */\n/* Application specific.  Left out intentionally. */"
+83961224,0,"/* ERwin Builtin %Datetime */\n/* %Parent %VerbPhrase %Child ON PARENT INSERT CASCADE */\n/* Application specific.  Left out intentionally. */"
+83987528,0,"YES"
+83986968,0,"Yes"
+84000016,0,"NO"
+84005424,0,"YES"
+83999072,0,"Yes"
+84005288,0,"NO"
+83999800,0,"NO"
+84009312,0,"YES"
+84004864,0,"Yes"
+109697656,0,"NO"
+107481368,0,"YES"
+84009056,0,"Yes"
+107484632,0,"YES"
+107480808,0,"Yes"
+109697592,0,"NO"
+107493216,0,"YES"
+107484376,0,"Yes"
+107498896,0,"YES"
+107492632,0,"Yes"
+107493576,0,"NO"
+107493360,0,"NO"
+109697456,0,"YES"
+107498472,0,"Yes"
+107504176,0,"NO"
+109697440,0,"YES"
+107503920,0,"Yes"
+107517512,0,"YES"
+107509696,0,"Yes"
+107517736,0,"NO"
+107510656,0,"NO"
+107522848,0,"YES"
+107516224,0,"Yes"
+107517952,0,"NO"
+109697304,0,"NO"
+107517144,0,"NO"
+107517288,0,"NO"
+109676112,0,"YES"
+107522264,0,"Yes"
+107523208,0,"NO"
+109697240,0,"NO"
+107533048,0,"YES"
+107532488,0,"Yes"
+107535736,0,"NO"
+107539280,0,"YES"
+107535480,0,"Yes"
+109643208,0,"YES"
+107538720,0,"Yes"
+109643568,0,"NO"
+109671256,0,"YES"
+109642616,0,"Yes"
+109671912,0,"NO"
+109643352,0,"NO"
+109666496,0,"YES"
+109651136,0,"Yes"
+109656152,0,"NO"
+109651720,0,"NO"
+109656288,0,"YES"
+109655728,0,"Yes"
+109662952,0,"NO"
+109666360,0,"YES"
+109660096,0,"Yes"
+109666704,0,"YES"
+109662696,0,"Yes"
+109672128,0,"YES"
+109665936,0,"Yes"
+109671480,0,"NO"
+109675976,0,"YES"
+109670512,0,"Yes"
+109671696,0,"NO"
+109671112,0,"NO"
+109681096,0,"YES"
+109675552,0,"Yes"
+109685944,0,"NO"
+109697792,0,"YES"
+61903672,0,"Yes"
+83987392,0,"NO"
+83977192,0,"NO"
+109685584,0,"YES"
+109680368,0,"Yes"
+109685728,0,"NO"
+109680952,0,"NO"
+109690112,0,"YES"
+109684992,0,"Yes"
+109696528,0,"NO"
+109686160,0,"NO"
+109690464,0,"YES"
+109689688,0,"Yes"
+109696376,0,"NO"
+/*
+CREATE TABLE ERWIN_ENTITY
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       ENTITY_NAME              VARCHAR(254),
+       ENTITY_NOTE              INTEGER,
+       ENTITY_DEFINITION        INTEGER
+       VIEW_WITH_CHECK          INTEGER
+       ENTITY_FLAGS             INTEGER
+);
+*/
+1,"ET_IE",0,0,"Aluno",0,0,"",0,0
+4,"ET_IE",0,0,"Funcionario",0,0,"",0,0
+5,"ET_IE",0,0,"Produto",0,0,"",0,0
+6,"ET_IE",0,0,"Modalidade",0,0,"",0,0
+7,"ET_IE",0,0,"Fornecedor",0,0,"",0,0
+9,"ET_IE",0,0,"Exercicios",0,0,"",0,0
+10,"ET_IE",0,0,"Avaliação",0,0,"",0,0
+11,"ET_IE",0,0,"Ficha_Treino",0,0,"",0,0
+13,"ET_IE",0,0,"Despesa",0,0,"",0,0
+14,"ET_IE",0,0,"Caixa",0,0,"",0,0
+15,"ET_IE",0,0,"Entrada",0,0,"",0,0
+16,"ET_IE",0,0,"Saida",0,0,"",0,0
+17,"ET_IE",0,0,"Dados_Empresa",0,0,"",0,0
+18,"ET_IE",0,0,"Estado",0,0,"",0,0
+19,"ET_IE",0,0,"Cidade",0,0,"",0,0
+20,"ET_DE",0,0,"Treino",0,0,"",0,0
+21,"ET_IE",0,0,"Matricula",0,0,"",0,0
+24,"ET_IE",0,0,"Catraca",0,0,"",0,0
+26,"ET_IE",0,0,"User",0,0,"",0,0
+27,"ET_IE",0,0,"Tela",0,0,"",0,0
+29,"ET_DE",0,0,"Campo",0,0,"",0,0
+30,"ET_DE",0,0,"UserCampo",0,0,"",0,0
+31,"ET_IE",0,0,"Acesso",0,0,"",0,0
+33,"ET_IE",0,0,"Digital",0,0,"",0,0
+34,"ET_IE",0,0,"Venda",0,0,"",0,0
+35,"ET_DE",0,0,"Item_Venda",0,0,"",0,0
+36,"ET_DE",0,0,"Termo",0,0,"",0,0
+/*
+CREATE TABLE ERWIN_RELATIONSHIP
+      (RELATIONSHIP_ID          INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       PARENT_ENTITY            INTEGER NOT NULL,
+       PARENT_TYPE              CHAR(6) NOT NULL,
+       CHILD_ENTITY             INTEGER NOT NULL,
+       CHILD_TYPE               CHAR(6) NOT NULL,
+       VERB_PHRASE              VARCHAR(254),
+       CARDINALITY              CHAR(6),
+       PARENT_DELETE_RULE       CHAR(6),
+       PARENT_UPDATE_RULE       CHAR(6),
+       CHILD_INSERT_RULE        CHAR(6),
+       CHILD_DELETE_RULE        CHAR(6),
+       CHILD_UPDATE_RULE        CHAR(6),
+       PARENT_INSERT_RULE       CHAR(6),
+       NULL_RULE                CHAR(6),
+       RELATIONSHIP_DEFINITION  INTEGER,
+       VERB_PHRASE2             VARCHAR(254),
+       SYNONYM_NAME             VARCHAR(128),
+       VIEWSEQ                  INTEGER
+       ISOUTER                  INTEGER
+       MMASSOC                  INTEGER
+       REL_FLAGS                INTEGER
+);
+*/
+97,"RT_NI",0,0,31,"ET_IE",14,"ET_IE","R/97","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+96,"RT_NI",0,0,31,"ET_IE",14,"ET_IE","R/96","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+94,"RT_NI",0,0,31,"ET_IE",34,"ET_IE","R/94","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+93,"RT_NI",0,0,21,"ET_IE",15,"ET_IE","R/93","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",3,0,0,0
+92,"RT_NI",0,0,9,"ET_IE",20,"ET_DE","R/92","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+90,"RT_ID",0,0,11,"ET_IE",20,"ET_DE","R/90","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",0,0,0,0
+89,"RT_NI",0,0,10,"ET_IE",11,"ET_IE","R/89","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+87,"RT_NI",0,0,34,"ET_IE",15,"ET_IE","R/87","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",3,0,0,0
+86,"RT_NI",0,0,1,"ET_IE",34,"ET_IE","R/86","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+84,"RT_ID",0,0,1,"ET_IE",36,"ET_DE","R/84","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",0,0,0,0
+83,"RT_ID",0,0,5,"ET_IE",35,"ET_DE","R/83","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",1,0,35,0
+82,"RT_ID",0,0,34,"ET_IE",35,"ET_DE","R/82","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",0,0,35,0
+80,"RT_NI",0,0,33,"ET_IE",24,"ET_IE","R/80","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+79,"RT_NI",0,0,1,"ET_IE",33,"ET_IE","R/79","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+77,"RT_NI",0,0,4,"ET_IE",33,"ET_IE","R/77","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+70,"RT_NI",0,0,6,"ET_IE",21,"ET_IE","R/70","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+68,"RT_NI",0,0,1,"ET_IE",21,"ET_IE","R/68","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+67,"RT_NI",0,0,31,"ET_IE",16,"ET_IE","R/67","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+66,"RT_NI",0,0,14,"ET_IE",16,"ET_IE","R/66","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+64,"RT_NI",0,0,14,"ET_IE",15,"ET_IE","R/64","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",2,0,0,0
+62,"RT_NI",0,0,31,"ET_IE",15,"ET_IE","R/62","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+61,"RT_NI",0,0,26,"ET_IE",31,"ET_IE","R/61","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+54,"RT_ID",0,0,29,"ET_DE",30,"ET_DE","R/54","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",1,0,30,0
+53,"RT_ID",0,0,26,"ET_IE",30,"ET_DE","R/53","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",0,0,30,0
+51,"RT_ID",0,0,27,"ET_IE",29,"ET_DE","R/51","CT_ZM","DR_RE","UR_RE","IR_RE","RI_NO","UR_CRE","RI_NO","NR_NN",0,"","",0,0,0,0
+47,"RT_NI",0,0,26,"ET_IE",4,"ET_IE","R/47","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",2,0,0,0
+45,"RT_NI",0,0,1,"ET_IE",10,"ET_IE","R/45","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+44,"RT_NI",0,0,4,"ET_IE",10,"ET_IE","R/44","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",1,0,0,0
+42,"RT_NI",0,0,18,"ET_IE",19,"ET_IE","R/42","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+26,"RT_NI",0,0,7,"ET_IE",5,"ET_IE","R/26","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+20,"RT_NI",0,0,19,"ET_IE",1,"ET_IE","R/20","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+19,"RT_NI",0,0,19,"ET_IE",4,"ET_IE","R/19","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+18,"RT_NI",0,0,19,"ET_IE",7,"ET_IE","R/18","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+17,"RT_NI",0,0,19,"ET_IE",17,"ET_IE","R/17","CT_ZM","DR_SN","UR_SN","IR_SN","RI_NO","UR_CSN","RI_NO","NR_NA",0,"","",0,0,0,0
+/*
+CREATE TABLE ERWIN_EAU
+      (ATTRIBUTE_ID             INTEGER NOT NULL,
+       RELATIONSHIP_ID          INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       EAU_BASENAME             VARCHAR(254) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       COLUMN_POSITION          INTEGER,
+       ATTRIBUTE_TYPE           CHAR(6) NOT NULL,
+       EAU_ROLENAME             VARCHAR(254),
+       EAU_PHYS_ORDER           INTEGER,
+       CS_DOMAIN_ID             INTEGER,
+       EAU_FONT                 INTEGER,
+       EAU_COLOR                INTEGER,
+       EAU_NOTE                 INTEGER,
+       EAU_DEFINITION           INTEGER
+       EAU_FLAGS                INTEGER
+);
+*/
+2,-1,"RT_OA","alu_id",1,"ET_IE",0,0,0,"AT_PK","",0,199,0,0,0,0,4
+3,-1,"RT_OA","alu_nome",1,"ET_IE",0,0,1,"AT_NK","",2,15,0,0,0,0,4
+4,-1,"RT_OA","alu_rg",1,"ET_IE",0,0,2,"AT_NK","",3,16,0,0,0,0,4
+5,-1,"RT_OA","alu_cpf",1,"ET_IE",0,0,3,"AT_NK","",4,17,0,0,0,0,4
+7,-1,"RT_OA","alu_bairro",1,"ET_IE",0,0,4,"AT_NK","",5,19,0,0,0,0,4
+6,-1,"RT_OA","alu_rua",1,"ET_IE",0,0,5,"AT_NK","",6,18,0,0,0,0,4
+8,-1,"RT_OA","alu_numero",1,"ET_IE",0,0,6,"AT_NK","",7,20,0,0,0,0,4
+53,-1,"RT_OA","alu_cep",1,"ET_IE",0,0,7,"AT_NK","",8,65,0,0,0,0,4
+11,-1,"RT_OA","alu_fone",1,"ET_IE",0,0,8,"AT_NK","",9,23,0,0,0,0,4
+12,-1,"RT_OA","alu_cel",1,"ET_IE",0,0,9,"AT_NK","",10,24,0,0,0,0,4
+13,-1,"RT_OA","alu_email",1,"ET_IE",0,0,10,"AT_NK","",11,25,0,0,0,0,4
+14,-1,"RT_OA","alu_dtnasc",1,"ET_IE",0,0,11,"AT_NK","",12,26,0,0,0,0,4
+140,20,"RT_NI","cid_cod",1,"ET_IE",0,0,12,"AT_NK","",1,210,-1,-1,0,0,0
+187,-1,"RT_OA","alu_sexo",1,"ET_IE",0,0,13,"AT_NK","",13,326,0,0,0,0,4
+15,-1,"RT_OA","func_id",4,"ET_IE",0,0,0,"AT_PK","",0,27,0,0,0,0,4
+144,47,"RT_NI","user_id",4,"ET_IE",0,0,1,"AT_NK","",1,234,-1,-1,0,0,0
+26,-1,"RT_OA","categoria",4,"ET_IE",0,0,2,"AT_NK","",2,38,0,0,0,0,4
+16,-1,"RT_OA","func_nome",4,"ET_IE",0,0,3,"AT_NK","",3,28,0,0,0,0,4
+17,-1,"RT_OA","func_rg",4,"ET_IE",0,0,4,"AT_NK","",4,29,0,0,0,0,4
+18,-1,"RT_OA","func_cpf",4,"ET_IE",0,0,5,"AT_NK","",5,30,0,0,0,0,4
+25,-1,"RT_OA","func_dtnasc",4,"ET_IE",0,0,6,"AT_NK","",6,37,0,0,0,0,4
+20,-1,"RT_OA","func_bairro",4,"ET_IE",0,0,7,"AT_NK","",7,32,0,0,0,0,4
+19,-1,"RT_OA","func_rua",4,"ET_IE",0,0,8,"AT_NK","",8,31,0,0,0,0,4
+21,-1,"RT_OA","func_numero",4,"ET_IE",0,0,9,"AT_NK","",9,33,0,0,0,0,4
+52,-1,"RT_OA","func_cep",4,"ET_IE",0,0,10,"AT_NK","",10,64,0,0,0,0,4
+22,-1,"RT_OA","func_fone",4,"ET_IE",0,0,11,"AT_NK","",11,34,0,0,0,0,4
+23,-1,"RT_OA","func_cel",4,"ET_IE",0,0,12,"AT_NK","",12,35,0,0,0,0,4
+24,-1,"RT_OA","func_email",4,"ET_IE",0,0,13,"AT_NK","",13,36,0,0,0,0,4
+140,19,"RT_NI","cid_cod",4,"ET_IE",0,0,14,"AT_NK","",14,211,-1,-1,0,0,0
+162,-1,"RT_OA","func_dtadm",4,"ET_IE",0,0,15,"AT_NK","",15,271,0,0,0,0,4
+163,-1,"RT_OA","func_dtdem",4,"ET_IE",0,0,16,"AT_NK","",16,272,0,0,0,0,4
+30,-1,"RT_OA","prod_id",5,"ET_IE",0,0,0,"AT_PK","",0,42,0,0,0,0,4
+37,26,"RT_NI","forn_id",5,"ET_IE",0,0,1,"AT_NK","",1,165,-1,-1,0,0,0
+31,-1,"RT_OA","prod_desc",5,"ET_IE",0,0,2,"AT_NK","",2,43,0,0,0,0,4
+114,-1,"RT_OA","prod_valor",5,"ET_IE",0,0,3,"AT_NK","",3,166,0,0,0,0,4
+115,-1,"RT_OA","prod_estatual",5,"ET_IE",0,0,4,"AT_NK","",4,167,0,0,0,0,4
+116,-1,"RT_OA","prod_estmin",5,"ET_IE",0,0,5,"AT_NK","",5,168,0,0,0,0,4
+33,-1,"RT_OA","mod_id",6,"ET_IE",0,0,0,"AT_PK","",0,45,0,0,0,0,4
+34,-1,"RT_OA","mod_desc",6,"ET_IE",0,0,1,"AT_NK","",1,46,0,0,0,0,4
+120,-1,"RT_OA","mod_valorm",6,"ET_IE",0,0,2,"AT_NK","",2,174,0,0,0,0,4
+164,-1,"RT_OA","mod_valord",6,"ET_IE",0,0,3,"AT_NK","",3,274,0,0,0,0,4
+37,-1,"RT_OA","forn_id",7,"ET_IE",0,0,0,"AT_PK","",0,49,0,0,0,0,4
+38,-1,"RT_OA","forn_cnpj",7,"ET_IE",0,0,1,"AT_NK","",1,50,0,0,0,0,4
+39,-1,"RT_OA","forn_razaosocial",7,"ET_IE",0,0,2,"AT_NK","",2,51,0,0,0,0,4
+40,-1,"RT_OA","forn_inscestadual",7,"ET_IE",0,0,3,"AT_NK","",3,52,0,0,0,0,4
+43,-1,"RT_OA","forn_bairro",7,"ET_IE",0,0,4,"AT_NK","",4,55,0,0,0,0,4
+44,-1,"RT_OA","forn_rua",7,"ET_IE",0,0,5,"AT_NK","",5,56,0,0,0,0,4
+45,-1,"RT_OA","forn_num",7,"ET_IE",0,0,6,"AT_NK","",6,57,0,0,0,0,4
+46,-1,"RT_OA","forn_cep",7,"ET_IE",0,0,7,"AT_NK","",7,58,0,0,0,0,4
+47,-1,"RT_OA","forn_email",7,"ET_IE",0,0,8,"AT_NK","",8,59,0,0,0,0,4
+48,-1,"RT_OA","forn_site",7,"ET_IE",0,0,9,"AT_NK","",9,60,0,0,0,0,4
+49,-1,"RT_OA","forn_fone",7,"ET_IE",0,0,10,"AT_NK","",10,61,0,0,0,0,4
+50,-1,"RT_OA","forn_cel",7,"ET_IE",0,0,11,"AT_NK","",11,62,0,0,0,0,4
+51,-1,"RT_OA","forn_representante",7,"ET_IE",0,0,12,"AT_NK","",12,63,0,0,0,0,4
+140,18,"RT_NI","cid_cod",7,"ET_IE",0,0,13,"AT_NK","",13,212,-1,-1,0,0,0
+54,-1,"RT_OA","exe_id",9,"ET_IE",0,0,0,"AT_PK","",0,68,0,0,0,0,4
+55,-1,"RT_OA","exe_desc",9,"ET_IE",0,0,1,"AT_NK","",1,69,0,0,0,0,4
+56,-1,"RT_OA","exe_area",9,"ET_IE",0,0,2,"AT_NK","",2,70,0,0,0,0,4
+58,-1,"RT_OA","ava_id",10,"ET_IE",0,0,0,"AT_PK","",0,76,0,0,0,0,4
+2,45,"RT_NI","alu_id",10,"ET_IE",0,0,1,"AT_NK","",1,225,-1,-1,0,0,0
+15,44,"RT_NI","func_id",10,"ET_IE",0,0,2,"AT_NK","",2,224,-1,-1,0,0,0
+59,-1,"RT_OA","ava_dtagend",10,"ET_IE",0,0,3,"AT_NK","",3,73,0,0,0,0,4
+61,-1,"RT_OA","ava_dtrealiz",10,"ET_IE",0,0,4,"AT_NK","",4,79,0,0,0,0,4
+63,-1,"RT_OA","ava_saude",10,"ET_IE",0,0,5,"AT_NK","",5,81,0,0,0,0,4
+64,-1,"RT_OA","ava_perfil",10,"ET_IE",0,0,6,"AT_NK","",6,82,0,0,0,0,4
+65,-1,"RT_OA","ava_dobra1",10,"ET_IE",0,0,7,"AT_NK","",7,83,0,0,0,0,4
+66,-1,"RT_OA","ava_dobra2",10,"ET_IE",0,0,8,"AT_NK","",8,84,0,0,0,0,4
+67,-1,"RT_OA","ava_resistmusc",10,"ET_IE",0,0,9,"AT_NK","",9,85,0,0,0,0,4
+68,-1,"RT_OA","ava_flex",10,"ET_IE",0,0,10,"AT_NK","",10,86,0,0,0,0,4
+142,-1,"RT_OA","ficha_cod",11,"ET_IE",0,0,0,"AT_PK","",1,226,0,0,0,0,4
+58,89,"RT_NI","ava_id",11,"ET_IE",0,0,1,"AT_NK","",0,335,-1,-1,0,0,0
+70,-1,"RT_OA","ficha_status",11,"ET_IE",0,0,2,"AT_NK","",2,91,0,0,0,0,4
+71,-1,"RT_OA","ficha_finalidade",11,"ET_IE",0,0,3,"AT_NK","",3,92,0,0,0,0,4
+72,-1,"RT_OA","ficha_dtfim",11,"ET_IE",0,0,4,"AT_NK","",5,93,0,0,0,0,4
+189,-1,"RT_OA","ficha_dtini",11,"ET_IE",0,0,5,"AT_NK","",4,330,0,0,0,0,4
+76,-1,"RT_OA","desp_id",13,"ET_IE",0,0,0,"AT_PK","",0,101,0,0,0,0,4
+77,-1,"RT_OA","desp_desc",13,"ET_IE",0,0,1,"AT_NK","",1,102,0,0,0,0,4
+78,-1,"RT_OA","desp_valor",13,"ET_IE",0,0,2,"AT_NK","",2,103,0,0,0,0,4
+79,-1,"RT_OA","desp_dtpg",13,"ET_IE",0,0,3,"AT_NK","",3,104,0,0,0,0,4
+160,-1,"RT_OA","desp_dtvenc",13,"ET_IE",0,0,4,"AT_NK","",4,269,0,0,0,0,4
+161,-1,"RT_OA","desp_valorpg",13,"ET_IE",0,0,5,"AT_NK","",5,270,0,0,0,0,4
+80,-1,"RT_OA","cai_data",14,"ET_IE",0,0,0,"AT_PK","",0,105,0,0,0,0,4
+155,96,"RT_NI","acess_id",14,"ET_IE",0,0,1,"AT_NK","",2,358,-1,-1,0,0,0
+155,97,"RT_NI","acess_id",14,"ET_IE",0,0,1,"AT_NK","",2,356,-1,-1,0,0,0
+81,-1,"RT_OA","cai_horaabertura",14,"ET_IE",0,0,2,"AT_NK","",1,106,0,0,0,0,4
+82,-1,"RT_OA","cai_horafechamento",14,"ET_IE",0,0,3,"AT_NK","",3,107,0,0,0,0,4
+83,-1,"RT_OA","cai_valorini",14,"ET_IE",0,0,4,"AT_NK","",4,108,0,0,0,0,4
+84,-1,"RT_OA","cai_valorfin",14,"ET_IE",0,0,5,"AT_NK","",5,109,0,0,0,0,4
+143,-1,"RT_OA","ent_id",15,"ET_IE",0,0,0,"AT_PK","",0,229,0,0,0,0,4
+165,93,"RT_NI","mat_cod",15,"ET_IE",0,0,1,"AT_NK","",1,348,-1,-1,0,0,0
+175,87,"RT_NI","ven_cod",15,"ET_IE",0,0,2,"AT_NK","",2,322,-1,-1,0,0,0
+80,64,"RT_NI","cai_data",15,"ET_IE",0,0,3,"AT_NK","",3,262,-1,-1,0,0,0
+155,62,"RT_NI","acess_id",15,"ET_IE",0,0,4,"AT_NK","",4,260,-1,-1,0,0,0
+89,-1,"RT_OA","ent_valor",15,"ET_IE",0,0,5,"AT_NK","",5,116,0,0,0,0,4
+90,-1,"RT_OA","ent_desc",15,"ET_IE",0,0,6,"AT_NK","",6,117,0,0,0,0,4
+159,-1,"RT_OA","sai_id",16,"ET_IE",0,0,0,"AT_PK","",0,267,0,0,0,0,4
+155,67,"RT_NI","acess_id",16,"ET_IE",0,0,1,"AT_NK","",1,273,-1,-1,0,0,0
+80,66,"RT_NI","cai_data",16,"ET_IE",0,0,2,"AT_NK","",2,268,-1,-1,0,0,0
+87,-1,"RT_OA","sai_valor",16,"ET_IE",0,0,3,"AT_NK","",3,113,0,0,0,0,4
+88,-1,"RT_OA","sai_desc",16,"ET_IE",0,0,4,"AT_NK","",4,114,0,0,0,0,4
+93,-1,"RT_OA","cnpj",17,"ET_IE",0,0,0,"AT_PK","",0,120,0,0,0,0,4
+91,-1,"RT_OA","razaosocial",17,"ET_IE",0,0,1,"AT_NK","",1,118,0,0,0,0,4
+92,-1,"RT_OA","nomefantasia",17,"ET_IE",0,0,2,"AT_NK","",2,119,0,0,0,0,4
+94,-1,"RT_OA","proprietario",17,"ET_IE",0,0,3,"AT_NK","",3,121,0,0,0,0,4
+95,-1,"RT_OA","site",17,"ET_IE",0,0,4,"AT_NK","",4,122,0,0,0,0,4
+96,-1,"RT_OA","email",17,"ET_IE",0,0,5,"AT_NK","",5,123,0,0,0,0,4
+97,-1,"RT_OA","rua",17,"ET_IE",0,0,6,"AT_NK","",6,124,0,0,0,0,4
+98,-1,"RT_OA","bairro",17,"ET_IE",0,0,7,"AT_NK","",7,125,0,0,0,0,4
+100,-1,"RT_OA","numero",17,"ET_IE",0,0,8,"AT_NK","",8,127,0,0,0,0,4
+102,-1,"RT_OA","logo",17,"ET_IE",0,0,9,"AT_NK","",9,129,0,0,0,0,4
+108,-1,"RT_OA","cep",17,"ET_IE",0,0,10,"AT_NK","",10,140,0,0,0,0,4
+140,17,"RT_NI","cid_cod",17,"ET_IE",0,0,11,"AT_NK","",11,213,-1,-1,0,0,0
+188,-1,"RT_OA","tel",17,"ET_IE",0,0,12,"AT_NK","",12,328,0,0,0,0,4
+141,-1,"RT_OA","est_cod",18,"ET_IE",0,0,0,"AT_PK","",0,214,0,0,0,0,4
+103,-1,"RT_OA","est_sigla",18,"ET_IE",0,0,1,"AT_NK","",1,130,0,0,0,0,4
+140,-1,"RT_OA","cid_cod",19,"ET_IE",0,0,0,"AT_PK","",0,209,0,0,0,0,4
+141,42,"RT_NI","est_cod",19,"ET_IE",0,0,1,"AT_NK","",1,221,-1,-1,0,0,0
+106,-1,"RT_OA","cid_nome",19,"ET_IE",0,0,2,"AT_NK","",2,133,0,0,0,0,4
+111,-1,"RT_OA","trei_id",20,"ET_DE",0,0,0,"AT_PK","",0,153,0,0,0,0,4
+142,90,"RT_ID","ficha_cod",20,"ET_DE",0,0,1,"AT_PK","",1,336,-1,-1,0,0,0
+54,92,"RT_NI","exe_id",20,"ET_DE",0,0,2,"AT_NK","",3,341,-1,-1,0,0,0
+112,-1,"RT_OA","trei_desc",20,"ET_DE",0,0,3,"AT_NK","",2,162,0,0,0,0,4
+190,-1,"RT_OA","qtdrep",20,"ET_DE",0,0,4,"AT_NK","",4,343,0,0,0,0,4
+191,-1,"RT_OA","carga/2",20,"ET_DE",0,0,5,"AT_NK","",5,345,0,0,0,0,4
+192,-1,"RT_OA","serie",20,"ET_DE",0,0,6,"AT_NK","",6,347,0,0,0,0,4
+194,-1,"RT_OA","tempo",20,"ET_DE",0,0,7,"AT_NK","",7,352,0,0,0,0,4
+165,-1,"RT_OA","mat_cod",21,"ET_IE",0,0,0,"AT_PK","",0,275,0,0,0,0,4
+33,70,"RT_NI","mod_id",21,"ET_IE",0,0,1,"AT_NK","",1,279,-1,-1,0,0,0
+2,68,"RT_NI","alu_id",21,"ET_IE",0,0,2,"AT_NK","",2,277,-1,-1,0,0,0
+126,-1,"RT_OA","mat_dtvcmto",21,"ET_IE",0,0,3,"AT_NK","",3,182,0,0,0,0,4
+128,-1,"RT_OA","mat_tolerancia",21,"ET_IE",0,0,4,"AT_NK","",4,184,0,0,0,0,4
+129,-1,"RT_OA","mat_tipo",21,"ET_IE",0,0,5,"AT_NK","",5,185,0,0,0,0,4
+130,-1,"RT_OA","mat_qtdedias",21,"ET_IE",0,0,6,"AT_NK","",6,186,0,0,0,0,4
+166,-1,"RT_OA","mat_dtini",21,"ET_IE",0,0,7,"AT_NK","",7,280,0,0,0,0,4
+167,-1,"RT_OA","mat_dtfim",21,"ET_IE",0,0,8,"AT_NK","",8,281,0,0,0,0,4
+168,-1,"RT_OA","mat_obs",21,"ET_IE",0,0,9,"AT_NK","",9,282,0,0,0,0,4
+136,-1,"RT_OA","cat_id",24,"ET_IE",0,0,0,"AT_PK","",0,205,0,0,0,0,4
+173,80,"RT_NI","dig_cod",24,"ET_IE",0,0,1,"AT_NK","",1,301,-1,-1,0,0,0
+138,-1,"RT_OA","cat_entr",24,"ET_IE",0,0,2,"AT_NK","",2,207,0,0,0,0,4
+139,-1,"RT_OA","cat_sai",24,"ET_IE",0,0,3,"AT_NK","",3,208,0,0,0,0,4
+144,-1,"RT_OA","user_id",26,"ET_IE",0,0,0,"AT_PK","",0,230,0,0,0,0,4
+145,-1,"RT_OA","user_pass",26,"ET_IE",0,0,1,"AT_NK","",1,231,0,0,0,0,4
+146,-1,"RT_OA","user_login",26,"ET_IE",0,0,2,"AT_NK","",2,232,0,0,0,0,4
+186,-1,"RT_OA","usuario_status",26,"ET_IE",0,0,3,"AT_NK","",3,324,0,0,0,0,4
+147,-1,"RT_OA","tela_id",27,"ET_IE",0,0,0,"AT_PK","",0,235,0,0,0,0,4
+148,-1,"RT_OA","tela_nome",27,"ET_IE",0,0,1,"AT_NK","",1,236,0,0,0,0,4
+150,-1,"RT_OA","camp_id",29,"ET_DE",0,0,0,"AT_PK","",0,240,0,0,0,0,4
+147,51,"RT_ID","tela_id",29,"ET_DE",0,0,1,"AT_PK","",1,243,-1,-1,0,0,0
+151,-1,"RT_OA","camp_nome",29,"ET_DE",0,0,2,"AT_NK","",2,241,0,0,0,0,4
+144,53,"RT_ID","user_id",30,"ET_DE",0,0,0,"AT_PK","",0,244,-1,-1,0,0,0
+150,54,"RT_ID","camp_id",30,"ET_DE",0,0,1,"AT_PK","",1,245,-1,-1,0,0,0
+147,54,"RT_ID","tela_id",30,"ET_DE",0,0,2,"AT_PK","",2,246,-1,-1,0,0,0
+153,-1,"RT_OA","usercamp_acesso",30,"ET_DE",0,0,3,"AT_NK","",3,247,0,0,0,0,4
+155,-1,"RT_OA","acess_id",31,"ET_IE",0,0,0,"AT_PK","",0,252,0,0,0,0,4
+144,61,"RT_NI","user_id",31,"ET_IE",0,0,1,"AT_NK","",1,259,-1,-1,0,0,0
+156,-1,"RT_OA","acess_ent",31,"ET_IE",0,0,2,"AT_NK","",2,253,0,0,0,0,4
+157,-1,"RT_OA","acess_sai",31,"ET_IE",0,0,3,"AT_NK","",3,254,0,0,0,0,4
+173,-1,"RT_OA","dig_cod",33,"ET_IE",0,0,0,"AT_PK","",0,297,0,0,0,0,4
+2,79,"RT_NI","alu_id",33,"ET_IE",0,0,1,"AT_NK","",1,300,-1,-1,0,0,0
+15,77,"RT_NI","func_id",33,"ET_IE",0,0,2,"AT_NK","",2,298,-1,-1,0,0,0
+174,-1,"RT_OA","dig_status",33,"ET_IE",0,0,3,"AT_NK","",3,302,0,0,0,0,4
+185,-1,"RT_OA","dig_contents",33,"ET_IE",0,0,4,"AT_NK","",4,321,0,0,0,0,4
+175,-1,"RT_OA","ven_cod",34,"ET_IE",0,0,0,"AT_PK","",0,303,0,0,0,0,4
+155,94,"RT_NI","acess_id",34,"ET_IE",0,0,1,"AT_NK","",-1,353,-1,-1,0,0,0
+2,86,"RT_NI","alu_id",34,"ET_IE",0,0,2,"AT_NK","",2,319,-1,-1,0,0,0
+176,-1,"RT_OA","ven_data",34,"ET_IE",0,0,3,"AT_NK","",1,304,0,0,0,0,4
+177,-1,"RT_OA","ven_valor",34,"ET_IE",0,0,4,"AT_NK","",3,305,0,0,0,0,4
+175,82,"RT_ID","ven_cod",35,"ET_DE",0,0,0,"AT_PK","",0,306,-1,-1,0,0,0
+30,83,"RT_ID","prod_id",35,"ET_DE",0,0,1,"AT_PK","",1,307,-1,-1,0,0,0
+178,-1,"RT_OA","item_valor",35,"ET_DE",0,0,2,"AT_NK","",2,308,0,0,0,0,4
+179,-1,"RT_OA","item_qtde",35,"ET_DE",0,0,3,"AT_NK","",3,309,0,0,0,0,4
+180,-1,"RT_OA","ter_id",36,"ET_DE",0,0,0,"AT_PK","",0,310,0,0,0,0,4
+2,84,"RT_ID","alu_id",36,"ET_DE",0,0,1,"AT_PK","",1,313,-1,-1,0,0,0
+181,-1,"RT_OA","ter_img",36,"ET_DE",0,0,2,"AT_NK","",2,311,0,0,0,0,4
+183,-1,"RT_OA","ter_desc",36,"ET_DE",0,0,3,"AT_NK","",3,315,0,0,0,0,4
+/*
+CREATE TABLE ERWIN_SUBTYPE_REL
+      (SUBTYPE_ID               INTEGER NOT NULL,
+       SUBTYPE_TYPE             CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       DISCRIMINATOR_NAME       VARCHAR(254)
+);
+*/
+/*
+CREATE TABLE ERWIN_DIAG_VIEW_OBJ
+      (SUBJECT_ID               INTEGER NOT NULL,
+       DISPLAY_ID               INTEGER NOT NULL,
+       OBJECT_ID                INTEGER NOT NULL,
+       OBJECT_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       XCOORD1                  INTEGER,
+       YCOORD1                  INTEGER,
+       XCOORD2                  INTEGER,
+       YCOORD2                  INTEGER
+       ENRN_FONT_ID             INTEGER,
+       ENR_COLOR_ID             INTEGER,
+       ELINE_COLOR_ID           INTEGER,
+       EFILL_COLOR_ID           INTEGER,
+       EDEF_FONT_ID             INTEGER,
+       EDEF_COLOR_ID            INTEGER,
+       COLOR_TYPE               CHAR(6),
+       FONT_TYPE                CHAR(6)
+       USER_TOUCHED             INTEGER,
+       PATH0_X                  INTEGER,
+       PATH0_Y                  INTEGER,
+       PATH1_X                  INTEGER,
+       PATH1_Y                  INTEGER,
+       PATH2_X                  INTEGER,
+       PATH2_Y                  INTEGER,
+       PATH3_X                  INTEGER,
+       PATH3_Y                  INTEGER,
+       PATH4_X                  INTEGER,
+       PATH4_Y                  INTEGER,
+       VERB1_X                  INTEGER,
+       VERB1_Y                  INTEGER,
+       VERB2_X                  INTEGER,
+       VERB2_Y                  INTEGER,
+       MID_X                    INTEGER,
+       MID_Y                    INTEGER,
+);
+*/
+71306024,1,1,"ET_IE",0,0,21,111,236,371,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,4,"ET_IE",0,0,774,60,996,368,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,5,"ET_IE",0,0,1370,43,1582,175,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,6,"ET_IE",0,0,316,520,528,620,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,7,"ET_IE",0,0,1014,141,1276,401,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,9,"ET_IE",0,0,542,309,749,393,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,10,"ET_IE",0,0,276,125,516,337,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,11,"ET_IE",0,0,279,368,527,500,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,13,"ET_IE",0,0,534,155,747,287,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,14,"ET_IE",0,0,1409,352,1578,484,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,15,"ET_IE",0,0,688,653,892,801,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,16,"ET_IE",0,0,1431,620,1632,736,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,17,"ET_IE",0,0,1192,509,1416,753,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,18,"ET_IE",0,0,961,725,1149,793,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,19,"ET_IE",0,0,953,586,1163,670,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,20,"ET_DE",0,0,584,477,711,641,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,21,"ET_IE",0,0,98,635,299,831,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,24,"ET_IE",0,0,1112,0,1241,100,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,26,"ET_IE",0,0,1649,14,1873,114,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,27,"ET_IE",0,0,1647,532,1862,600,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,29,"ET_DE",0,0,1586,306,1811,390,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,30,"ET_DE",0,0,1596,158,1787,258,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,31,"ET_IE",0,0,1826,242,1967,342,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,33,"ET_IE",0,0,496,0,723,116,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,34,"ET_IE",0,0,1451,221,1569,337,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,35,"ET_DE",0,0,1285,256,1413,356,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,36,"ET_DE",0,0,272,18,472,118,0,0,0,1,0,0,"TX_FNT","TX_COL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71306024,1,97,"RT_NI",0,0,146,30,0,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1870,342,1870,414,1870,414,1578,414,0,0,0,10,10,0,0,0
+71306024,1,96,"RT_NI",0,0,0,10,0,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1896,342,1896,428,1896,428,1578,428,0,0,0,10,10,0,0,0
+71306024,1,94,"RT_NI",0,0,0,0,1,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1826,270,1697,270,1697,270,1569,270,0,0,-10,0,10,0,0,0
+71306024,1,93,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,299,741,464,741,464,744,688,744,0,0,10,0,-10,0,0,0
+71306024,1,92,"RT_NI",0,0,0,0,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",0,645,393,645,435,645,435,645,477,0,0,0,0,0,0,0,0
+71306024,1,90,"RT_ID",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,527,484,555,484,555,568,584,568,0,0,10,0,-10,0,0,0
+71306024,1,89,"RT_NI",0,0,0,-8,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,373,337,373,352,372,352,372,368,0,0,0,0,0,0,0,0
+71306024,1,87,"RT_NI",0,0,0,0,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1510,337,1510,507,817,507,817,653,0,0,0,0,0,0,0,0
+71306024,1,86,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,236,323,844,323,844,299,1451,299,0,0,10,0,-10,0,0,0
+71306024,1,84,"RT_ID",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,236,174,254,174,254,78,272,78,0,0,10,0,-10,0,0,0
+71306024,1,83,"RT_ID",0,0,0,25,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1436,175,1436,240,1326,240,1326,256,0,0,0,10,0,-10,0,0
+71306024,1,82,"RT_ID",0,0,0,2,1,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1451,328,1433,328,1433,352,1413,352,0,0,-10,0,10,0,0,0
+71306024,1,80,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,723,33,914,33,914,32,1112,32,0,0,10,0,-10,0,0,0
+71306024,1,79,"RT_NI",0,0,-119,-31,2,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,130,111,130,15,130,15,496,15,0,0,0,-10,-10,0,0,0
+71306024,1,77,"RT_NI",0,0,0,0,1,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,774,101,750,101,750,105,723,105,0,0,-10,0,10,0,0,0
+71306024,1,70,"RT_NI",0,0,22,67,0,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,343,620,343,689,343,689,299,689,0,0,0,10,10,0,0,0
+71306024,1,68,"RT_NI",0,0,0,0,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,112,371,112,504,173,504,173,635,0,0,0,0,0,0,0,0
+71306024,1,67,"RT_NI",0,0,0,74,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1947,342,1947,492,1628,492,1628,620,0,0,0,0,0,0,0,0
+71306024,1,66,"RT_NI",0,0,0,2,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1537,484,1537,552,1537,552,1537,620,0,0,0,0,0,0,0,0
+71306024,1,64,"RT_NI",0,0,0,-78,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1438,484,1438,487,872,487,872,653,0,0,0,10,0,-10,0,0
+71306024,1,62,"RT_NI",0,0,0,-40,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1913,342,1913,457,789,457,789,653,0,0,0,0,0,0,0,0
+71306024,1,61,"RT_NI",0,0,0,0,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1864,114,1864,144,1908,144,1908,242,0,0,0,10,0,-10,0,0
+71306024,1,54,"RT_ID",0,0,0,8,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1727,306,1727,291,1719,291,1719,258,0,0,0,-10,0,10,0,0
+71306024,1,53,"RT_ID",0,0,0,0,0,2,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1714,114,1714,136,1714,136,1714,158,0,0,0,0,0,-10,0,0
+71306024,1,51,"RT_ID",0,0,0,-29,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1774,532,1774,470,1780,470,1780,390,0,0,0,-10,0,10,0,0
+71306024,1,47,"RT_NI",0,0,-3,0,1,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1649,45,1310,45,1310,86,996,86,0,0,-10,0,10,0,0,0
+71306024,1,45,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,236,250,256,250,256,250,276,250,0,0,10,0,-10,0,0,0
+71306024,1,44,"RT_NI",0,0,-8,0,1,3,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,774,149,646,149,646,155,516,155,0,0,-10,0,10,0,0,0
+71306024,1,42,"RT_NI",0,0,0,0,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",0,1055,725,1055,698,1055,698,1055,670,0,0,0,0,0,10,0,0
+71306024,1,26,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1276,172,1322,172,1322,118,1370,118,0,0,10,0,-10,0,0,0
+71306024,1,20,"RT_NI",0,0,0,23,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1030,586,1030,428,194,428,194,371,0,0,0,0,0,0,0,0
+71306024,1,19,"RT_NI",0,0,0,-81,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,972,586,972,404,885,404,885,368,0,0,0,-10,0,10,0,0
+71306024,1,18,"RT_NI",0,0,0,19,2,0,-1,-1,0,0,0,0,"TX_FNT","TX_COL",1,1144,586,1144,493,1144,493,1144,401,0,0,0,0,0,10,0,0
+71306024,1,17,"RT_NI",0,0,0,0,3,1,-1,-1,0,0,0,0,"TX_FNT","TX_COL",0,1163,636,1177,636,1177,636,1192,636,0,0,10,0,-10,0,0,0
+/*
+CREATE TABLE ENTITY_INDEX
+      (INDEX_ID                 INTEGER NOT NULL,
+       INDEX_TYPE               CHAR(6) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       INDEX_FLAGS              INTEGER NOT NULL,
+);
+*/
+0,"IT_PK",1,"ET_IE",0,0,0,4
+20,"IT_IF",1,"ET_IE",0,0,0,4
+0,"IT_PK",4,"ET_IE",0,0,0,4
+19,"IT_IF",4,"ET_IE",0,0,0,4
+47,"IT_IF",4,"ET_IE",0,0,0,4
+0,"IT_PK",5,"ET_IE",0,0,0,4
+26,"IT_IF",5,"ET_IE",0,0,0,4
+0,"IT_PK",6,"ET_IE",0,0,0,4
+0,"IT_PK",7,"ET_IE",0,0,0,4
+18,"IT_IF",7,"ET_IE",0,0,0,4
+0,"IT_PK",9,"ET_IE",0,0,0,4
+0,"IT_PK",10,"ET_IE",0,0,0,4
+44,"IT_IF",10,"ET_IE",0,0,0,4
+45,"IT_IF",10,"ET_IE",0,0,0,4
+0,"IT_PK",11,"ET_IE",0,0,0,4
+89,"IT_IF",11,"ET_IE",0,0,0,0
+0,"IT_PK",13,"ET_IE",0,0,0,4
+0,"IT_PK",14,"ET_IE",0,0,0,4
+96,"IT_IF",14,"ET_IE",0,0,0,4
+97,"IT_IF",14,"ET_IE",0,0,0,4
+0,"IT_PK",15,"ET_IE",0,0,0,4
+62,"IT_IF",15,"ET_IE",0,0,0,4
+64,"IT_IF",15,"ET_IE",0,0,0,4
+87,"IT_IF",15,"ET_IE",0,0,0,0
+93,"IT_IF",15,"ET_IE",0,0,0,0
+0,"IT_PK",16,"ET_IE",0,0,0,4
+66,"IT_IF",16,"ET_IE",0,0,0,4
+67,"IT_IF",16,"ET_IE",0,0,0,4
+0,"IT_PK",17,"ET_IE",0,0,0,4
+17,"IT_IF",17,"ET_IE",0,0,0,4
+0,"IT_PK",18,"ET_IE",0,0,0,4
+0,"IT_PK",19,"ET_IE",0,0,0,4
+42,"IT_IF",19,"ET_IE",0,0,0,4
+0,"IT_PK",20,"ET_DE",0,0,0,4
+90,"IT_IF",20,"ET_DE",0,0,0,4
+92,"IT_IF",20,"ET_DE",0,0,0,4
+0,"IT_PK",21,"ET_IE",0,0,0,4
+68,"IT_IF",21,"ET_IE",0,0,0,4
+70,"IT_IF",21,"ET_IE",0,0,0,4
+0,"IT_PK",24,"ET_IE",0,0,0,4
+80,"IT_IF",24,"ET_IE",0,0,0,4
+0,"IT_PK",26,"ET_IE",0,0,0,4
+0,"IT_PK",27,"ET_IE",0,0,0,4
+0,"IT_PK",29,"ET_DE",0,0,0,4
+51,"IT_IF",29,"ET_DE",0,0,0,4
+0,"IT_PK",30,"ET_DE",0,0,0,4
+53,"IT_IF",30,"ET_DE",0,0,0,4
+54,"IT_IF",30,"ET_DE",0,0,0,4
+0,"IT_PK",31,"ET_IE",0,0,0,4
+61,"IT_IF",31,"ET_IE",0,0,0,4
+0,"IT_PK",33,"ET_IE",0,0,0,4
+77,"IT_IF",33,"ET_IE",0,0,0,4
+79,"IT_IF",33,"ET_IE",0,0,0,4
+0,"IT_PK",34,"ET_IE",0,0,0,4
+86,"IT_IF",34,"ET_IE",0,0,0,0
+94,"IT_IF",34,"ET_IE",0,0,0,0
+0,"IT_PK",35,"ET_DE",0,0,0,4
+82,"IT_IF",35,"ET_DE",0,0,0,4
+83,"IT_IF",35,"ET_DE",0,0,0,4
+0,"IT_PK",36,"ET_DE",0,0,0,4
+84,"IT_IF",36,"ET_DE",0,0,0,4
+/*
+CREATE TABLE INDEX_MEMBER
+      (INDEX_ID                 INTEGER NOT NULL,
+       INDEX_TYPE               CHAR(6) NOT NULL,
+       ATTRIBUTE_ID             INTEGER NOT NULL,
+       FOREIGN_KEY              INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       EAU_BASENAME             VARCHAR(254) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       INDEX_POSITION           INTEGER
+);
+*/
+20,"IT_IF",140,20,"RT_NI","cid_cod",1,"ET_IE",0,0,1
+0,"IT_PK",2,-1,"RT_OA","alu_id",1,"ET_IE",0,0,1
+19,"IT_IF",140,19,"RT_NI","cid_cod",4,"ET_IE",0,0,1
+47,"IT_IF",144,47,"RT_NI","user_id",4,"ET_IE",0,0,1
+0,"IT_PK",15,-1,"RT_OA","func_id",4,"ET_IE",0,0,1
+26,"IT_IF",37,26,"RT_NI","forn_id",5,"ET_IE",0,0,1
+0,"IT_PK",30,-1,"RT_OA","prod_id",5,"ET_IE",0,0,1
+0,"IT_PK",33,-1,"RT_OA","mod_id",6,"ET_IE",0,0,1
+18,"IT_IF",140,18,"RT_NI","cid_cod",7,"ET_IE",0,0,1
+0,"IT_PK",37,-1,"RT_OA","forn_id",7,"ET_IE",0,0,1
+0,"IT_PK",54,-1,"RT_OA","exe_id",9,"ET_IE",0,0,1
+44,"IT_IF",15,44,"RT_NI","func_id",10,"ET_IE",0,0,1
+45,"IT_IF",2,45,"RT_NI","alu_id",10,"ET_IE",0,0,1
+0,"IT_PK",58,-1,"RT_OA","ava_id",10,"ET_IE",0,0,1
+89,"IT_IF",58,89,"RT_NI","ava_id",11,"ET_IE",0,0,1
+0,"IT_PK",142,-1,"RT_OA","ficha_cod",11,"ET_IE",0,0,1
+0,"IT_PK",76,-1,"RT_OA","desp_id",13,"ET_IE",0,0,1
+96,"IT_IF",155,96,"RT_NI","acess_id",14,"ET_IE",0,0,1
+97,"IT_IF",155,97,"RT_NI","acess_id",14,"ET_IE",0,0,1
+0,"IT_PK",80,-1,"RT_OA","cai_data",14,"ET_IE",0,0,1
+62,"IT_IF",155,62,"RT_NI","acess_id",15,"ET_IE",0,0,1
+64,"IT_IF",80,64,"RT_NI","cai_data",15,"ET_IE",0,0,1
+87,"IT_IF",175,87,"RT_NI","ven_cod",15,"ET_IE",0,0,1
+93,"IT_IF",165,93,"RT_NI","mat_cod",15,"ET_IE",0,0,1
+0,"IT_PK",143,-1,"RT_OA","ent_id",15,"ET_IE",0,0,1
+66,"IT_IF",80,66,"RT_NI","cai_data",16,"ET_IE",0,0,1
+67,"IT_IF",155,67,"RT_NI","acess_id",16,"ET_IE",0,0,1
+0,"IT_PK",159,-1,"RT_OA","sai_id",16,"ET_IE",0,0,1
+17,"IT_IF",140,17,"RT_NI","cid_cod",17,"ET_IE",0,0,1
+0,"IT_PK",93,-1,"RT_OA","cnpj",17,"ET_IE",0,0,1
+0,"IT_PK",141,-1,"RT_OA","est_cod",18,"ET_IE",0,0,1
+42,"IT_IF",141,42,"RT_NI","est_cod",19,"ET_IE",0,0,1
+0,"IT_PK",140,-1,"RT_OA","cid_cod",19,"ET_IE",0,0,1
+90,"IT_IF",142,90,"RT_ID","ficha_cod",20,"ET_DE",0,0,1
+92,"IT_IF",54,92,"RT_NI","exe_id",20,"ET_DE",0,0,1
+0,"IT_PK",111,-1,"RT_OA","trei_id",20,"ET_DE",0,0,1
+0,"IT_PK",142,90,"RT_ID","ficha_cod",20,"ET_DE",0,0,2
+68,"IT_IF",2,68,"RT_NI","alu_id",21,"ET_IE",0,0,1
+70,"IT_IF",33,70,"RT_NI","mod_id",21,"ET_IE",0,0,1
+0,"IT_PK",165,-1,"RT_OA","mat_cod",21,"ET_IE",0,0,1
+80,"IT_IF",173,80,"RT_NI","dig_cod",24,"ET_IE",0,0,1
+0,"IT_PK",136,-1,"RT_OA","cat_id",24,"ET_IE",0,0,1
+0,"IT_PK",144,-1,"RT_OA","user_id",26,"ET_IE",0,0,1
+0,"IT_PK",147,-1,"RT_OA","tela_id",27,"ET_IE",0,0,1
+51,"IT_IF",147,51,"RT_ID","tela_id",29,"ET_DE",0,0,1
+0,"IT_PK",150,-1,"RT_OA","camp_id",29,"ET_DE",0,0,1
+0,"IT_PK",147,51,"RT_ID","tela_id",29,"ET_DE",0,0,2
+53,"IT_IF",144,53,"RT_ID","user_id",30,"ET_DE",0,0,1
+54,"IT_IF",150,54,"RT_ID","camp_id",30,"ET_DE",0,0,1
+54,"IT_IF",147,54,"RT_ID","tela_id",30,"ET_DE",0,0,2
+0,"IT_PK",144,53,"RT_ID","user_id",30,"ET_DE",0,0,1
+0,"IT_PK",150,54,"RT_ID","camp_id",30,"ET_DE",0,0,2
+0,"IT_PK",147,54,"RT_ID","tela_id",30,"ET_DE",0,0,3
+61,"IT_IF",144,61,"RT_NI","user_id",31,"ET_IE",0,0,1
+0,"IT_PK",155,-1,"RT_OA","acess_id",31,"ET_IE",0,0,1
+77,"IT_IF",15,77,"RT_NI","func_id",33,"ET_IE",0,0,1
+79,"IT_IF",2,79,"RT_NI","alu_id",33,"ET_IE",0,0,1
+0,"IT_PK",173,-1,"RT_OA","dig_cod",33,"ET_IE",0,0,1
+86,"IT_IF",2,86,"RT_NI","alu_id",34,"ET_IE",0,0,1
+94,"IT_IF",155,94,"RT_NI","acess_id",34,"ET_IE",0,0,1
+0,"IT_PK",175,-1,"RT_OA","ven_cod",34,"ET_IE",0,0,1
+82,"IT_IF",175,82,"RT_ID","ven_cod",35,"ET_DE",0,0,1
+83,"IT_IF",30,83,"RT_ID","prod_id",35,"ET_DE",0,0,1
+0,"IT_PK",175,82,"RT_ID","ven_cod",35,"ET_DE",0,0,1
+0,"IT_PK",30,83,"RT_ID","prod_id",35,"ET_DE",0,0,2
+84,"IT_IF",2,84,"RT_ID","alu_id",36,"ET_DE",0,0,1
+0,"IT_PK",180,-1,"RT_OA","ter_id",36,"ET_DE",0,0,1
+0,"IT_PK",2,84,"RT_ID","alu_id",36,"ET_DE",0,0,2
+/*
+CREATE TABLE DIAGRAM_OPTION
+      (OPTION_NAME              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER,
+       SUBJECT_ID               INTEGER,
+       DISPLAY_ID               INTEGER,
+       OPTION_VALUE             VARCHAR(254)
+);
+*/
+"DO_RV",0,0,0,0
+"DO_RC",0,0,0,0
+"DO_RI",0,0,0,0
+"DO_NN",0,0,0,0
+"DO_SD",0,0,0,1
+"DO_ST",0,0,0,1
+"DO_EE",0,0,0,49836
+"DO_RE",0,0,0,49846
+"DO_PG",0,0,0,0
+"DO_EW",0,0,0,0
+"DO_EH",0,0,0,0
+"DO_AR",0,0,0,0
+"DO_AK",0,0,0,0
+"DO_DL",0,0,0,1
+"DO_LG",0,0,0,0
+"DO_XL",0,0,0,0
+"DO_YL",0,0,0,0
+"DO_FK",0,0,0,0
+"DO_UN",0,0,0,1
+"DO_TD",0,0,0,"172"
+"DO_TV",0,0,0,6
+"DO_AI",0,0,0,7003
+"DO_DD",0,0,0,"char(18)"
+"DO_DG",0,0,0,0
+"DO_DN",0,0,0,0
+"DO_PF",0,0,0,25
+"DO_VW",0,0,0,9
+"DO_SR",0,0,0,0
+"DO_ICI",0,0,0,"IR_RE"
+"DO_IPD",0,0,0,"DR_RE"
+"DO_IPU",0,0,0,"UR_RE"
+"DO_IPI",0,0,0,"RI_NO"
+"DO_ICD",0,0,0,"RI_NO"
+"DO_ICU",0,0,0,"UR_CRE"
+"DO_ACI",0,0,0,"IR_SN"
+"DO_APD",0,0,0,"DR_SN"
+"DO_APU",0,0,0,"UR_SN"
+"DO_API",0,0,0,"RI_NO"
+"DO_ACD",0,0,0,"RI_NO"
+"DO_ACU",0,0,0,"UR_CSN"
+"DO_NCI",0,0,0,"IR_RE"
+"DO_NPD",0,0,0,"DR_RE"
+"DO_NPU",0,0,0,"UR_RE"
+"DO_NPI",0,0,0,"RI_NO"
+"DO_NCD",0,0,0,"RI_NO"
+"DO_NCU",0,0,0,"UR_CRE"
+"DO_SCI",0,0,0,"IR_RE"
+"DO_SPD",0,0,0,"DR_CA"
+"DO_SPU",0,0,0,"UR_CA"
+"DO_SPI",0,0,0,"RI_NO"
+"DO_SCD",0,0,0,"RI_NO"
+"DO_SCU",0,0,0,"UR_CRE"
+"DO_EID",0,0,0,36
+"DO_AID",0,0,0,194
+"DO_RID",0,0,0,97
+"DO_FTE",0,0,0,0
+"DO_FTR",0,0,0,-1
+"DO_FTT",0,0,0,0
+"DO_FTS",0,0,0,-1
+"DO_FTP",0,0,0,0
+"DO_FOW",0,0,0,0
+"DO_FFK",0,0,0,-1
+"DO_COE",0,0,0,0
+"DO_COR",0,0,0,-1
+"DO_COT",0,0,0,0
+"DO_COS",0,0,0,-1
+"DO_COP",0,0,0,0
+"DO_COW",0,0,0,0
+"DO_CFK",0,0,0,-1
+"DO_CBK",0,0,0,1
+"DO_CEL",0,0,0,0
+"DO_CEB",0,0,0,1
+"DO_CSB",0,0,0,1
+"DO_C01",0,0,0,16777215
+"DO_C02",0,0,0,16777215
+"DO_C03",0,0,0,16777215
+"DO_C04",0,0,0,16777215
+"DO_C05",0,0,0,16777215
+"DO_C06",0,0,0,16777215
+"DO_C07",0,0,0,16777215
+"DO_C08",0,0,0,16777215
+"DO_C09",0,0,0,16777215
+"DO_C10",0,0,0,16777215
+"DO_C11",0,0,0,16777215
+"DO_C12",0,0,0,16777215
+"DO_C13",0,0,0,16777215
+"DO_C14",0,0,0,16777215
+"DO_C15",0,0,0,16777215
+"DO_C16",0,0,0,16777215
+"DO_SHX",0,0,0,5
+"DO_SHY",0,0,0,5
+"DO_SON",0,0,0,1
+"DO_PID",0,0,0,0
+"DO_DID",0,0,0,358
+"DO_TID",0,0,0,0
+"DO_SID",0,0,0,0
+"DO_NTT",0,0,0,1
+"DO_PBL",0,0,0,""
+"DO_TC",0,0,0,1
+"DO_VPS",0,0,0,0
+"DO_TM",0,0,0,0
+"DO_PCD",0,0,0,""
+"DO_PWD",0,0,0,""
+"DO_PDD",0,0,0,""
+"DO_PUD",0,0,0,0
+"DO_SOO",0,0,0,""
+"DO_PF2",0,0,0,4194306
+"DO_DLM",0,0,0,""
+"DO_VMN",0,0,0,49960
+"DO_VEL",0,0,0,20
+"DO_PNT",0,0,0,1
+"DO_WTE",0,0,0,49840
+"DO_WIM",0,0,0,"X%KeyType%TableName"
+"DO_DDL",0,71306024,1,1
+"DO_DSS",0,71306024,1,1
+"DO_DSD",0,71306024,1,1
+"DO_DNN",0,71306024,1,0
+"DO_DFK",0,71306024,1,0
+"DO_DSN",0,71306024,1,0
+"DO_DZL",0,71306024,1,-1
+"DO_DVP",0,71306024,1,0
+"DO_DSC",0,71306024,1,0
+"DO_DRI",0,71306024,1,0
+"DO_DRN",0,71306024,1,0
+"DO_DAK",0,71306024,1,0
+"DO_DHR",0,71306024,1,0
+"DO_DDR",0,71306024,1,0
+"DO_DSX",0,71306024,1,5
+"DO_DSY",0,71306024,1,5
+"DO_DSO",0,71306024,1,1
+"DO_HSP",0,71306024,1,0
+"DO_VSP",0,71306024,1,0
+"DO_SVS",0,71306024,1,1
+"DO_SVR",0,71306024,1,1
+"DO_SVD",0,71306024,1,0
+"DO_SVN",0,71306024,1,0
+"DO_SVM",0,71306024,1,1
+"DO_SUN",0,71306024,1,1
+"DO_SMA",0,71306024,1,1
+"DO_PDL",0,71306024,1,1
+"DO_SPR",0,71306024,1,0
+"DO_SPG",0,71306024,1,0
+"DO_SPC",0,71306024,1,0
+"DO_SPA",0,71306024,1,0
+"DO_LDT",0,71306024,1,0
+"DO_LFK",0,71306024,1,1
+"DO_P00",0,71306024,1,748
+"DO_P01",0,71306024,1,1042
+"DO_P02",0,71306024,1,0
+"DO_P03",0,71306024,1,0
+"DO_P04",0,71306024,1,0
+"DO_P05",0,71306024,1,0
+"DO_P06",0,71306024,1,"%File% -- %Display% / %SubjectArea%"
+"DO_P07",0,71306024,1,"%CurrentPage% / %TotalPages% -- %Time% , %Date%"
+"DO_P08",0,71306024,1,"winspool"
+"DO_P09",0,71306024,1,"Enviar para o OneNote 2010"
+"DO_P10",0,71306024,1,"nul:"
+"DO_P11",0,71306024,1,1
+"DO_P12",0,71306024,1,"69766e4570207261206172616e4f206f746f4e6530322065000030310000000006000401030c009c00002f030009000108340b9a000100640258000f00010002000302583441000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000"
+"DO_P13",0,71306024,1,"000000010000000200000001ffffffff00000000000000000000000000000000554e494400d000220000030c5190acc200000000000000000000000000000000000000000000000000000000000000050007000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+"DO_P14",0,71306024,1,"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+"DO_P15",0,71306024,1,"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+"DO_ARL",0,71306024,1,0
+/*
+CREATE TABLE TEXT_BLOCK
+      (TEXT_BLOCK_ID            INTEGER NOT NULL,
+       TEXT_BLOCK_TYPE          CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TEXT_BLOCK_TEXT          INTEGER
+);
+*/
+/*
+CREATE TABLE CS_VALIDATION_RULE
+      (CS_VAL_RULE_ID           INTEGER NOT NULL,
+       CS_VAL_RULE_TYPE         CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       CS_VAL_RULE_NAME         CHAR(254) NOT NULL,
+       CLIENT_RULE              INTEGER,
+       SERVER_RULE              INTEGER,
+       CLIENT_TYPE              INTEGER,
+       CLIENT_WARNING           VARCHAR(254),
+       MINIMUM_VALUE            VARCHAR(254),
+       MAXIMUM_VALUE            VARCHAR(254),
+       SERVER_WARNING           VARCHAR(254)
+);
+*/
+/*
+CREATE TABLE CS_VALID_VALUES
+      (CS_VAL_RULE_ID           INTEGER NOT NULL,
+       CS_VAL_RULE_TYPE         CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       CS_VALUE                 VARCHAR(254) NOT NULL
+       CS_VALUE_DEF             INTEGER,
+       CS_VALUE_DISP            VARCHAR(254),
+       CS_VALUE_SEQ             INTEGER NOT NULL
+);
+*/
+/*
+CREATE TABLE TABLE_CONSTRAINT
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       CS_VAL_RULE_ID           INTEGER NOT NULL,
+       CS_VAL_RULE_TYPE         CHAR(6) NOT NULL,
+       TARGET_SERVER            CHAR(6) NOT NULL,
+       TARGET_CLIENT            CHAR(6) NOT NULL
+);
+*/
+/*
+CREATE TABLE PHYSICAL_OBJECT
+      (PHYSICAL_OBJECT_ID       INTEGER NOT NULL,
+       PHYSICAL_OBJECT_TYPE     CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       PHYSICAL_OBJECT_NAME     VARCHAR(254) NOT NULL,
+);
+*/
+/*
+CREATE TABLE PHYS_OBJ_PROP_VALUE
+      (PHYSICAL_OBJECT_ID       INTEGER NOT NULL,
+       PHYSICAL_OBJECT_TYPE     CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       PHYS_OBJ_PROP_ID         CHAR(6) NOT NULL,
+       PHYS_OBJ_PROP_VALUE      INTEGER,
+       PHYS_OBJ_PROP_IVAL       INTEGER,
+       PHYS_OBJ_PROP_SVAL       VARCHAR(254)
+);
+*/
+/*
+CREATE TABLE ENT_PHYSICAL_PV
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       PHYS_PROP_ID             CHAR(6) NOT NULL,
+       PHYS_PROP_VALUE          INTEGER
+);
+*/
+1,"ET_IE",0,0,"TD_SS","EP_TBN",83978384
+4,"ET_IE",0,0,"TD_SS","EP_TBN",83988504
+5,"ET_IE",0,0,"TD_SS","EP_TBN",84000992
+6,"ET_IE",0,0,"TD_SS","EP_TBN",84006408
+7,"ET_IE",0,0,"TD_SS","EP_TBN",84010216
+9,"ET_IE",0,0,"TD_SS","EP_TBN",107482344
+10,"ET_IE",0,0,"TD_SS","EP_TBN",107485536
+11,"ET_IE",0,0,"TD_SS","EP_TBN",107494552
+13,"ET_IE",0,0,"TD_SS","EP_TBN",107500008
+14,"ET_IE",0,0,"TD_SS","EP_TBN",107505072
+15,"ET_IE",0,0,"TD_SS","EP_TBN",107511640
+16,"ET_IE",0,0,"TD_SS","EP_TBN",107518928
+17,"ET_IE",0,0,"TD_SS","EP_TBN",107524184
+18,"ET_IE",0,0,"TD_SS","EP_TBN",107534024
+19,"ET_IE",0,0,"TD_SS","EP_TBN",107536632
+20,"ET_DE",0,0,"TD_SS","EP_TBN",107540256
+21,"ET_IE",0,0,"TD_SS","EP_TBN",109644760
+24,"ET_IE",0,0,"TD_SS","EP_TBN",109653056
+26,"ET_IE",0,0,"TD_SS","EP_TBN",109657264
+27,"ET_IE",0,0,"TD_SS","EP_TBN",109661248
+29,"ET_DE",0,0,"TD_SS","EP_TBN",109663848
+30,"ET_DE",0,0,"TD_SS","EP_TBN",109667688
+31,"ET_IE",0,0,"TD_SS","EP_TBN",109672856
+33,"ET_IE",0,0,"TD_SS","EP_TBN",83974168
+34,"ET_IE",0,0,"TD_SS","EP_TBN",109677088
+35,"ET_DE",0,0,"TD_SS","EP_TBN",109682288
+36,"ET_DE",0,0,"TD_SS","EP_TBN",109686888
+/*
+CREATE TABLE IDX_MBR_PHYS_PV
+      (INDEX_ID                 INTEGER NOT NULL,
+       INDEX_TYPE               CHAR(6) NOT NULL,
+       ATTRIBUTE_ID             INTEGER NOT NULL,
+       RELATIONSHIP_ID          INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       EAU_BASENAME             VARCHAR(254) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       INDEX_MBR_PVNAME         VARCHAR(254) NOT NULL,
+       INDEX_MBR_PVVALUE        INTEGER
+);
+*/
+20,"IT_IF",140,20,"RT_NI","cid_cod",1,"ET_IE",0,0,"TD_SS","ASC",0
+19,"IT_IF",140,19,"RT_NI","cid_cod",4,"ET_IE",0,0,"TD_SS","ASC",0
+47,"IT_IF",144,47,"RT_NI","user_id",4,"ET_IE",0,0,"TD_SS","ASC",0
+26,"IT_IF",37,26,"RT_NI","forn_id",5,"ET_IE",0,0,"TD_SS","ASC",0
+0,"IT_PK",30,-1,"RT_OA","prod_id",5,"ET_IE",0,0,"TD_SS","ASC",0
+0,"IT_PK",33,-1,"RT_OA","mod_id",6,"ET_IE",0,0,"TD_SS","ASC",0
+18,"IT_IF",140,18,"RT_NI","cid_cod",7,"ET_IE",0,0,"TD_SS","ASC",0
+0,"IT_PK",54,-1,"RT_OA","exe_id",9,"ET_IE",0,0,"TD_SS","ASC",0
+44,"IT_IF",15,44,"RT_NI","func_id",10,"ET_IE",0,0,"TD_SS","ASC",0
+45,"IT_IF",2,45,"RT_NI","alu_id",10,"ET_IE",0,0,"TD_SS","ASC",0
+89,"IT_IF",58,89,"RT_NI","ava_id",11,"ET_IE",0,0,"TD_SS","ASC",0
+96,"IT_IF",155,96,"RT_NI","acess_id",14,"ET_IE",0,0,"TD_SS","ASC",0
+97,"IT_IF",155,97,"RT_NI","acess_id",14,"ET_IE",0,0,"TD_SS","ASC",0
+0,"IT_PK",80,-1,"RT_OA","cai_data",14,"ET_IE",0,0,"TD_SS","ASC",0
+62,"IT_IF",155,62,"RT_NI","acess_id",15,"ET_IE",0,0,"TD_SS","ASC",0
+64,"IT_IF",80,64,"RT_NI","cai_data",15,"ET_IE",0,0,"TD_SS","ASC",0
+87,"IT_IF",175,87,"RT_NI","ven_cod",15,"ET_IE",0,0,"TD_SS","ASC",0
+93,"IT_IF",165,93,"RT_NI","mat_cod",15,"ET_IE",0,0,"TD_SS","ASC",0
+66,"IT_IF",80,66,"RT_NI","cai_data",16,"ET_IE",0,0,"TD_SS","ASC",0
+67,"IT_IF",155,67,"RT_NI","acess_id",16,"ET_IE",0,0,"TD_SS","ASC",0
+17,"IT_IF",140,17,"RT_NI","cid_cod",17,"ET_IE",0,0,"TD_SS","ASC",0
+42,"IT_IF",141,42,"RT_NI","est_cod",19,"ET_IE",0,0,"TD_SS","ASC",0
+90,"IT_IF",142,90,"RT_ID","ficha_cod",20,"ET_DE",0,0,"TD_SS","ASC",0
+92,"IT_IF",54,92,"RT_NI","exe_id",20,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",142,90,"RT_ID","ficha_cod",20,"ET_DE",0,0,"TD_SS","ASC",0
+68,"IT_IF",2,68,"RT_NI","alu_id",21,"ET_IE",0,0,"TD_SS","ASC",0
+70,"IT_IF",33,70,"RT_NI","mod_id",21,"ET_IE",0,0,"TD_SS","ASC",0
+80,"IT_IF",173,80,"RT_NI","dig_cod",24,"ET_IE",0,0,"TD_SS","ASC",0
+51,"IT_IF",147,51,"RT_ID","tela_id",29,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",147,51,"RT_ID","tela_id",29,"ET_DE",0,0,"TD_SS","ASC",0
+53,"IT_IF",144,53,"RT_ID","user_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+54,"IT_IF",150,54,"RT_ID","camp_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+54,"IT_IF",147,54,"RT_ID","tela_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",144,53,"RT_ID","user_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",150,54,"RT_ID","camp_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",147,54,"RT_ID","tela_id",30,"ET_DE",0,0,"TD_SS","ASC",0
+61,"IT_IF",144,61,"RT_NI","user_id",31,"ET_IE",0,0,"TD_SS","ASC",0
+77,"IT_IF",15,77,"RT_NI","func_id",33,"ET_IE",0,0,"TD_SS","ASC",0
+79,"IT_IF",2,79,"RT_NI","alu_id",33,"ET_IE",0,0,"TD_SS","ASC",0
+86,"IT_IF",2,86,"RT_NI","alu_id",34,"ET_IE",0,0,"TD_SS","ASC",0
+94,"IT_IF",155,94,"RT_NI","acess_id",34,"ET_IE",0,0,"TD_SS","ASC",0
+82,"IT_IF",175,82,"RT_ID","ven_cod",35,"ET_DE",0,0,"TD_SS","ASC",0
+83,"IT_IF",30,83,"RT_ID","prod_id",35,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",175,82,"RT_ID","ven_cod",35,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",30,83,"RT_ID","prod_id",35,"ET_DE",0,0,"TD_SS","ASC",0
+84,"IT_IF",2,84,"RT_ID","alu_id",36,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",180,-1,"RT_OA","ter_id",36,"ET_DE",0,0,"TD_SS","ASC",0
+0,"IT_PK",2,84,"RT_ID","alu_id",36,"ET_DE",0,0,"TD_SS","ASC",0
+/*
+CREATE TABLE INDEX_PHYSICAL_PV
+      (INDEX_ID                 INTEGER NOT NULL,
+       INDEX_TYPE               CHAR(6) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       INDEX_PV_ID              CHAR(6),
+       INDEX_PV_PHYS_OBJ        INTEGER,
+       INDEX_PV_VALUE           INTEGER
+);
+*/
+0,"IT_PK",1,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,83987528
+0,"IT_PK",1,"ET_IE",0,0,"TD_SS","IP_CLU",-1,83986968
+0,"IT_PK",1,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+20,"IT_IF",1,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,84000016
+20,"IT_IF",1,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",4,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,84005424
+0,"IT_PK",4,"ET_IE",0,0,"TD_SS","IP_CLU",-1,83999072
+0,"IT_PK",4,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+19,"IT_IF",4,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,84005288
+19,"IT_IF",4,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+47,"IT_IF",4,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,83999800
+47,"IT_IF",4,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",5,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,84009312
+0,"IT_PK",5,"ET_IE",0,0,"TD_SS","IP_CLU",-1,84004864
+0,"IT_PK",5,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+26,"IT_IF",5,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697656
+26,"IT_IF",5,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",6,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107481368
+0,"IT_PK",6,"ET_IE",0,0,"TD_SS","IP_CLU",-1,84009056
+0,"IT_PK",6,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",7,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107484632
+0,"IT_PK",7,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107480808
+0,"IT_PK",7,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+18,"IT_IF",7,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697592
+18,"IT_IF",7,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",9,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107493216
+0,"IT_PK",9,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107484376
+0,"IT_PK",9,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",10,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107498896
+0,"IT_PK",10,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107492632
+0,"IT_PK",10,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+44,"IT_IF",10,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107493576
+44,"IT_IF",10,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+45,"IT_IF",10,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107493360
+45,"IT_IF",10,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",11,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697456
+0,"IT_PK",11,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107498472
+0,"IT_PK",11,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+89,"IT_IF",11,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107504176
+89,"IT_IF",11,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",13,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697440
+0,"IT_PK",13,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107503920
+0,"IT_PK",13,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",14,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107517512
+0,"IT_PK",14,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107509696
+0,"IT_PK",14,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+96,"IT_IF",14,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107517736
+96,"IT_IF",14,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+97,"IT_IF",14,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107510656
+97,"IT_IF",14,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",15,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107522848
+0,"IT_PK",15,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107516224
+0,"IT_PK",15,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+62,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107517952
+62,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+64,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697304
+64,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+87,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107517144
+87,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+93,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107517288
+93,"IT_IF",15,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",16,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109676112
+0,"IT_PK",16,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107522264
+0,"IT_PK",16,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+66,"IT_IF",16,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107523208
+66,"IT_IF",16,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+67,"IT_IF",16,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697240
+67,"IT_IF",16,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",17,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107533048
+0,"IT_PK",17,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107532488
+0,"IT_PK",17,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+17,"IT_IF",17,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107535736
+17,"IT_IF",17,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",18,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,107539280
+0,"IT_PK",18,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107535480
+0,"IT_PK",18,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",19,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109643208
+0,"IT_PK",19,"ET_IE",0,0,"TD_SS","IP_CLU",-1,107538720
+0,"IT_PK",19,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+42,"IT_IF",19,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109643568
+42,"IT_IF",19,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",20,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109671256
+0,"IT_PK",20,"ET_DE",0,0,"TD_SS","IP_CLU",-1,109642616
+0,"IT_PK",20,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+90,"IT_IF",20,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109671912
+90,"IT_IF",20,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+92,"IT_IF",20,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109643352
+92,"IT_IF",20,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",21,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109666496
+0,"IT_PK",21,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109651136
+0,"IT_PK",21,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+68,"IT_IF",21,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109656152
+68,"IT_IF",21,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+70,"IT_IF",21,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109651720
+70,"IT_IF",21,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",24,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109656288
+0,"IT_PK",24,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109655728
+0,"IT_PK",24,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+80,"IT_IF",24,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109662952
+80,"IT_IF",24,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",26,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109666360
+0,"IT_PK",26,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109660096
+0,"IT_PK",26,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",27,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109666704
+0,"IT_PK",27,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109662696
+0,"IT_PK",27,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",29,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109672128
+0,"IT_PK",29,"ET_DE",0,0,"TD_SS","IP_CLU",-1,109665936
+0,"IT_PK",29,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+51,"IT_IF",29,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109671480
+51,"IT_IF",29,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",30,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109675976
+0,"IT_PK",30,"ET_DE",0,0,"TD_SS","IP_CLU",-1,109670512
+0,"IT_PK",30,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+53,"IT_IF",30,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109671696
+53,"IT_IF",30,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+54,"IT_IF",30,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109671112
+54,"IT_IF",30,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",31,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109681096
+0,"IT_PK",31,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109675552
+0,"IT_PK",31,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+61,"IT_IF",31,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109685944
+61,"IT_IF",31,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",33,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109697792
+0,"IT_PK",33,"ET_IE",0,0,"TD_SS","IP_CLU",-1,61903672
+0,"IT_PK",33,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+77,"IT_IF",33,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,83987392
+77,"IT_IF",33,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+79,"IT_IF",33,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,83977192
+79,"IT_IF",33,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",34,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109685584
+0,"IT_PK",34,"ET_IE",0,0,"TD_SS","IP_CLU",-1,109680368
+0,"IT_PK",34,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+86,"IT_IF",34,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109685728
+86,"IT_IF",34,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+94,"IT_IF",34,"ET_IE",0,0,"TD_SS","IP_UNQ",-1,109680952
+94,"IT_IF",34,"ET_IE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",35,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109690112
+0,"IT_PK",35,"ET_DE",0,0,"TD_SS","IP_CLU",-1,109684992
+0,"IT_PK",35,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+82,"IT_IF",35,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109696528
+82,"IT_IF",35,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+83,"IT_IF",35,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109686160
+83,"IT_IF",35,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+0,"IT_PK",36,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109690464
+0,"IT_PK",36,"ET_DE",0,0,"TD_SS","IP_CLU",-1,109689688
+0,"IT_PK",36,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+84,"IT_IF",36,"ET_DE",0,0,"TD_SS","IP_UNQ",-1,109696376
+84,"IT_IF",36,"ET_DE",0,0,"TD_SS","IP_NAM",-1,0
+/*
+CREATE TABLE ENTITY_TRIGGER
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       TRIGGER_NAME             VARCHAR(254) NOT NULL,
+       TRIGGER_TYPE             CHAR(6),
+       TRIGGER_DISABLED         INTEGER,
+       TRIGGER_FIRE             CHAR(6),
+       TRIGGER_SCOPE            CHAR(6),
+       TRIGGER_OLD              VARCHAR(254),
+       TRIGGER_NEW              VARCHAR(254),
+       TRIGGER_BODY             INTEGER
+);
+*/
+/*
+CREATE TABLE ENTITY_TRIGGER_UPD
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       TRIGGER_NAME             VARCHAR(254) NOT NULL,
+       UPDCOLS_LOG_NAME         VARCHAR(254) NOT NULL,
+       UPDCOLS_ORDER            INTEGER,
+       UPDCOLS_PHYS_NAME        VARCHAR(254)
+);
+*/
+/*
+CREATE TABLE DOMAIN
+      (CS_DOMAIN_ID             INTEGER NOT NULL,
+       CS_DOMAIN_TYPE           CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       CS_DOMAIN_NAME           VARCHAR(254) NOT NULL,
+       PARENT_CS_DOMAIN_ID      INTEGER,
+       CS_DOMAIN_DEFINITION     INTEGER,
+       CS_DOMAIN_FLAGS          INTEGER NOT NULL,
+       CS_DOMAIN_INTERNAL       INTEGER NOT NULL
+);
+*/
+8,"DOMAIN",0,0,"<unknown>",7,0,0,3
+12,"DOMAIN",0,0,"Blob",8,0,0,8
+11,"DOMAIN",0,0,"Datetime",8,0,0,7
+10,"DOMAIN",0,0,"Number",8,0,0,6
+9,"DOMAIN",0,0,"String",8,0,0,5
+7,"DOMAIN",0,0,"",0,0,0,4
+199,"DOMAIN",0,0,"",8,0,0,2
+15,"DOMAIN",0,0,"",8,0,0,2
+16,"DOMAIN",0,0,"",8,0,0,2
+17,"DOMAIN",0,0,"",8,0,0,2
+19,"DOMAIN",0,0,"",8,0,0,2
+18,"DOMAIN",0,0,"",8,0,0,2
+20,"DOMAIN",0,0,"",8,0,0,2
+65,"DOMAIN",0,0,"",8,0,0,2
+23,"DOMAIN",0,0,"",8,0,0,2
+24,"DOMAIN",0,0,"",8,0,0,2
+25,"DOMAIN",0,0,"",8,0,0,2
+26,"DOMAIN",0,0,"",8,0,0,2
+210,"DOMAIN",0,0,"",8,0,0,2
+326,"DOMAIN",0,0,"",8,0,0,2
+27,"DOMAIN",0,0,"",8,0,0,2
+234,"DOMAIN",0,0,"",8,0,0,2
+38,"DOMAIN",0,0,"",8,0,0,2
+28,"DOMAIN",0,0,"",8,0,0,2
+29,"DOMAIN",0,0,"",8,0,0,2
+30,"DOMAIN",0,0,"",8,0,0,2
+37,"DOMAIN",0,0,"",8,0,0,2
+32,"DOMAIN",0,0,"",8,0,0,2
+31,"DOMAIN",0,0,"",8,0,0,2
+33,"DOMAIN",0,0,"",8,0,0,2
+64,"DOMAIN",0,0,"",8,0,0,2
+34,"DOMAIN",0,0,"",8,0,0,2
+35,"DOMAIN",0,0,"",11,0,0,2
+36,"DOMAIN",0,0,"",8,0,0,2
+211,"DOMAIN",0,0,"",8,0,0,2
+271,"DOMAIN",0,0,"",8,0,0,2
+272,"DOMAIN",0,0,"",8,0,0,2
+42,"DOMAIN",0,0,"",8,0,0,2
+165,"DOMAIN",0,0,"",8,0,0,2
+43,"DOMAIN",0,0,"",8,0,0,2
+166,"DOMAIN",0,0,"",8,0,0,2
+167,"DOMAIN",0,0,"",8,0,0,2
+168,"DOMAIN",0,0,"",8,0,0,2
+45,"DOMAIN",0,0,"",8,0,0,2
+46,"DOMAIN",0,0,"",8,0,0,2
+174,"DOMAIN",0,0,"",8,0,0,2
+274,"DOMAIN",0,0,"",8,0,0,2
+49,"DOMAIN",0,0,"",8,0,0,2
+50,"DOMAIN",0,0,"",8,0,0,2
+51,"DOMAIN",0,0,"",8,0,0,2
+52,"DOMAIN",0,0,"",8,0,0,2
+55,"DOMAIN",0,0,"",8,0,0,2
+56,"DOMAIN",0,0,"",8,0,0,2
+57,"DOMAIN",0,0,"",8,0,0,2
+58,"DOMAIN",0,0,"",8,0,0,2
+59,"DOMAIN",0,0,"",8,0,0,2
+60,"DOMAIN",0,0,"",8,0,0,2
+61,"DOMAIN",0,0,"",8,0,0,2
+62,"DOMAIN",0,0,"",8,0,0,2
+63,"DOMAIN",0,0,"",8,0,0,2
+212,"DOMAIN",0,0,"",8,0,0,2
+68,"DOMAIN",0,0,"",8,0,0,2
+69,"DOMAIN",0,0,"",8,0,0,2
+70,"DOMAIN",0,0,"",8,0,0,2
+76,"DOMAIN",0,0,"",8,0,0,2
+225,"DOMAIN",0,0,"",8,0,0,2
+224,"DOMAIN",0,0,"",8,0,0,2
+73,"DOMAIN",0,0,"",8,0,0,2
+79,"DOMAIN",0,0,"",8,0,0,2
+81,"DOMAIN",0,0,"",8,0,0,2
+82,"DOMAIN",0,0,"",8,0,0,2
+83,"DOMAIN",0,0,"",8,0,0,2
+84,"DOMAIN",0,0,"",8,0,0,2
+85,"DOMAIN",0,0,"",8,0,0,2
+86,"DOMAIN",0,0,"",8,0,0,2
+226,"DOMAIN",0,0,"",8,0,0,2
+335,"DOMAIN",0,0,"",8,0,0,2
+91,"DOMAIN",0,0,"",8,0,0,2
+92,"DOMAIN",0,0,"",8,0,0,2
+93,"DOMAIN",0,0,"",8,0,0,2
+330,"DOMAIN",0,0,"",8,0,0,2
+101,"DOMAIN",0,0,"",8,0,0,2
+102,"DOMAIN",0,0,"",8,0,0,2
+103,"DOMAIN",0,0,"",8,0,0,2
+104,"DOMAIN",0,0,"",8,0,0,2
+269,"DOMAIN",0,0,"",8,0,0,2
+270,"DOMAIN",0,0,"",8,0,0,2
+105,"DOMAIN",0,0,"",8,0,0,2
+358,"DOMAIN",0,0,"",8,0,0,2
+356,"DOMAIN",0,0,"",8,0,0,2
+106,"DOMAIN",0,0,"",8,0,0,2
+107,"DOMAIN",0,0,"",8,0,0,2
+108,"DOMAIN",0,0,"",8,0,0,2
+109,"DOMAIN",0,0,"",8,0,0,2
+229,"DOMAIN",0,0,"",8,0,0,2
+348,"DOMAIN",0,0,"",8,0,0,2
+322,"DOMAIN",0,0,"",8,0,0,2
+262,"DOMAIN",0,0,"",8,0,0,2
+260,"DOMAIN",0,0,"",8,0,0,2
+116,"DOMAIN",0,0,"",8,0,0,2
+117,"DOMAIN",0,0,"",11,0,0,2
+267,"DOMAIN",0,0,"",8,0,0,2
+273,"DOMAIN",0,0,"",8,0,0,2
+268,"DOMAIN",0,0,"",8,0,0,2
+113,"DOMAIN",0,0,"",8,0,0,2
+114,"DOMAIN",0,0,"",8,0,0,2
+120,"DOMAIN",0,0,"",8,0,0,2
+118,"DOMAIN",0,0,"",8,0,0,2
+119,"DOMAIN",0,0,"",8,0,0,2
+121,"DOMAIN",0,0,"",8,0,0,2
+122,"DOMAIN",0,0,"",8,0,0,2
+123,"DOMAIN",0,0,"",8,0,0,2
+124,"DOMAIN",0,0,"",8,0,0,2
+125,"DOMAIN",0,0,"",8,0,0,2
+127,"DOMAIN",0,0,"",8,0,0,2
+129,"DOMAIN",0,0,"",8,0,0,2
+140,"DOMAIN",0,0,"",8,0,0,2
+213,"DOMAIN",0,0,"",8,0,0,2
+328,"DOMAIN",0,0,"",8,0,0,2
+214,"DOMAIN",0,0,"",8,0,0,2
+130,"DOMAIN",0,0,"",8,0,0,2
+209,"DOMAIN",0,0,"",8,0,0,2
+221,"DOMAIN",0,0,"",8,0,0,2
+133,"DOMAIN",0,0,"",8,0,0,2
+153,"DOMAIN",0,0,"",8,0,0,2
+336,"DOMAIN",0,0,"",8,0,0,2
+341,"DOMAIN",0,0,"",8,0,0,2
+162,"DOMAIN",0,0,"",8,0,0,2
+343,"DOMAIN",0,0,"",8,0,0,2
+345,"DOMAIN",0,0,"",8,0,0,2
+347,"DOMAIN",0,0,"",8,0,0,2
+352,"DOMAIN",0,0,"",8,0,0,2
+275,"DOMAIN",0,0,"",8,0,0,2
+279,"DOMAIN",0,0,"",8,0,0,2
+277,"DOMAIN",0,0,"",8,0,0,2
+182,"DOMAIN",0,0,"",8,0,0,2
+184,"DOMAIN",0,0,"",8,0,0,2
+185,"DOMAIN",0,0,"",8,0,0,2
+186,"DOMAIN",0,0,"",8,0,0,2
+280,"DOMAIN",0,0,"",8,0,0,2
+281,"DOMAIN",0,0,"",8,0,0,2
+282,"DOMAIN",0,0,"",8,0,0,2
+205,"DOMAIN",0,0,"",8,0,0,2
+301,"DOMAIN",0,0,"",8,0,0,2
+207,"DOMAIN",0,0,"",8,0,0,2
+208,"DOMAIN",0,0,"",8,0,0,2
+230,"DOMAIN",0,0,"",8,0,0,2
+231,"DOMAIN",0,0,"",8,0,0,2
+232,"DOMAIN",0,0,"",8,0,0,2
+324,"DOMAIN",0,0,"",8,0,0,2
+235,"DOMAIN",0,0,"",8,0,0,2
+236,"DOMAIN",0,0,"",8,0,0,2
+240,"DOMAIN",0,0,"",8,0,0,2
+243,"DOMAIN",0,0,"",8,0,0,2
+241,"DOMAIN",0,0,"",8,0,0,2
+244,"DOMAIN",0,0,"",8,0,0,2
+245,"DOMAIN",0,0,"",8,0,0,2
+246,"DOMAIN",0,0,"",8,0,0,2
+247,"DOMAIN",0,0,"",8,0,0,2
+252,"DOMAIN",0,0,"",8,0,0,2
+259,"DOMAIN",0,0,"",8,0,0,2
+253,"DOMAIN",0,0,"",8,0,0,2
+254,"DOMAIN",0,0,"",8,0,0,2
+297,"DOMAIN",0,0,"",8,0,0,2
+300,"DOMAIN",0,0,"",8,0,0,2
+298,"DOMAIN",0,0,"",8,0,0,2
+302,"DOMAIN",0,0,"",8,0,0,2
+321,"DOMAIN",0,0,"",8,0,0,2
+303,"DOMAIN",0,0,"",8,0,0,2
+353,"DOMAIN",0,0,"",8,0,0,2
+319,"DOMAIN",0,0,"",8,0,0,2
+304,"DOMAIN",0,0,"",8,0,0,2
+305,"DOMAIN",0,0,"",8,0,0,2
+306,"DOMAIN",0,0,"",8,0,0,2
+307,"DOMAIN",0,0,"",8,0,0,2
+308,"DOMAIN",0,0,"",8,0,0,2
+309,"DOMAIN",0,0,"",8,0,0,2
+310,"DOMAIN",0,0,"",8,0,0,2
+313,"DOMAIN",0,0,"",8,0,0,2
+311,"DOMAIN",0,0,"",8,0,0,2
+315,"DOMAIN",0,0,"",8,0,0,2
+/*
+CREATE TABLE DOMAIN_PROP_VALUE
+      (CS_DOMAIN_ID             INTEGER NOT NULL,
+       CS_DOMAIN_TYPE           CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       CS_DOMAINPV_SEQ          INTEGER NOT NULL,
+       CS_DOMAINPV_TYPE         CHAR(6) NOT NULL,
+       CS_DOMAINPV_TEXT_VAL     INTEGER,
+       CS_DOMAINPV_INT_VAL      INTEGER,
+       CS_DOMAINPV_ID_VAL       INTEGER,
+       CS_DOMAINPV_STR_VAL      VARCHAR(254),
+       CS_DOMAINPV_INHERIT      INTEGER NOT NULL
+);
+*/
+12,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"binary",0
+11,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"datetime",0
+10,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"int",0
+9,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"varchar(20)",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"char(18)",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,0,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"%AttName",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PLB",0,0,0,"%AttName:",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PHD",0,0,0,"%AttName",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_CMT",0,0,0,"%AttDef",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_DMC",0,0,0,"%DomainDef",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_DMN",0,0,0,"%DomainName",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PCM",0,0,0,"%AttDef",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PLP",0,23,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PHP",0,25,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PJT",0,23,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PCS",0,26,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_PBM",0,110,0,"",0
+7,"DOMAIN",0,0,"TD_SS",0,"CD_VSB",0,121,0,"",0
+199,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+199,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+15,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+15,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(60)",0
+16,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+16,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(20)",0
+17,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(11)",0
+19,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(30)",0
+18,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+20,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(10)",0
+65,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(8)",0
+23,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+24,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+25,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+26,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+210,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+326,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"alu_sexo",0
+326,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character",0
+27,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+27,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+234,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+234,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_id",0
+38,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+38,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(30)",0
+28,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+28,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(60)",0
+29,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+29,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(20)",0
+30,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(11)",0
+37,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+32,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(30)",0
+31,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+33,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(10)",0
+64,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(8)",0
+34,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+35,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+36,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+211,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+271,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+272,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+42,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+42,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+165,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+43,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+43,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+166,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+167,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+168,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+45,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+45,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+46,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+46,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+174,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+274,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+49,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+49,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+50,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+51,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+52,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+55,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+56,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+57,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(10)",0
+58,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(8)",0
+59,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+60,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+61,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+62,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+63,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+212,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+68,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+68,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+69,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+69,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+70,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+76,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+76,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+225,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+224,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+73,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+73,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+79,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+81,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+82,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+83,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+84,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+85,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+86,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+226,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+226,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+335,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+91,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"boolean",0
+92,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+93,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+330,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+101,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+101,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+102,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+102,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+103,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+104,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+269,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+270,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+105,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+105,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+358,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+358,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"cai_userfechou",0
+356,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+356,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"cai_userfechou",0
+106,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+107,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+108,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+109,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+229,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+229,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+348,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+322,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+262,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+260,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+116,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+116,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+117,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+267,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+267,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+273,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+268,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+113,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+113,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+114,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+114,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+120,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+120,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+118,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+119,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(50)",0
+121,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(60)",0
+122,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+123,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+124,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+125,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(30)",0
+127,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(10)",0
+129,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+140,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(8)",0
+213,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+328,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(12)",0
+214,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+214,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+130,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+130,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(2)",0
+209,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+209,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+221,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+133,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+133,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+153,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+153,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+336,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+336,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+341,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+162,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character",0
+343,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+345,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+345,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"carga",0
+347,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+352,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+275,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+275,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+279,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+277,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+182,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+184,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+185,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character",0
+186,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+280,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+281,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+282,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+205,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+205,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+301,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+207,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+208,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+230,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+230,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+230,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_id",0
+231,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+231,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(10)",0
+231,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_pass",0
+232,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+232,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(20)",0
+232,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_login",0
+324,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"boolean",0
+235,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+235,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+236,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+236,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+240,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+240,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+243,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+243,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+241,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+244,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+244,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+244,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_id",0
+245,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+245,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+246,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+246,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+247,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"boolean",0
+247,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuariocamp_acesso",0
+252,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+252,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+259,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+259,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"usuario_id",0
+253,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+254,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"timestamp",0
+297,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+297,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+300,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+298,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+302,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"boolean",0
+321,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+303,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+303,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+353,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+319,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+304,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"date",0
+305,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+306,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+306,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+307,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+307,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+308,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"money",0
+309,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"numeric",0
+310,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+310,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"ter_id",0
+310,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"sequence",0
+313,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,1,0,"",0
+313,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"serial",0
+311,"DOMAIN",0,0,"TD_SS",0,"CD_NUL",0,0,0,"",0
+311,"DOMAIN",0,0,"TD_SS",0,"CD_NAM",0,0,0,"ter_img",0
+311,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+315,"DOMAIN",0,0,"TD_SS",0,"CD_TYP",0,0,0,"character varying(100)",0
+/*
+CREATE TABLE ERWIN_DEFAULT
+      (DEFAULT_ID               INTEGER NOT NULL,
+       DEFAULT_TYPE             CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       DEFAULT_NAME             VARCHAR(254),
+       CLIENT_VALUE             INTEGER,
+       SERVER_VALUE             INTEGER,
+       DEFAULT_FLAG             INTEGER
+);
+*/
+0,"DEFVAL",0,0,"CURRENT_TIMESTAMP",0,61914952,3
+1,"DEFVAL",0,0,"CURRENT_USER",0,83956304,3
+2,"DEFVAL",0,0,"Fill With Spaces",83956112,0,0
+3,"DEFVAL",0,0,"NULL",0,61914936,3
+4,"DEFVAL",0,0,"SESSION_USER",0,61884336,3
+5,"DEFVAL",0,0,"Set To Empty String",61915016,0,0
+6,"DEFVAL",0,0,"Set To Null",83956080,0,0
+7,"DEFVAL",0,0,"Set To Zero",61907776,0,0
+8,"DEFVAL",0,0,"USER",0,61925632,3
+/*
+CREATE TABLE REL_PHYS_PROP
+      (RELATIONSHIP_ID          INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       FOREIGN_KEY_NAME         VARCHAR(8) NOT NULL
+       PHYSICAL_COMMENT         INTEGER
+);
+*/
+/*
+CREATE TABLE REL_TEMPLATE
+      (RELATIONSHIP_ID          INTEGER NOT NULL,
+       RELATIONSHIP_TYPE        CHAR(6) NOT NULL,
+       TEMPLATE_ID              INTEGER NOT NULL,
+       TEMPLATE_TYPE            CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       REL_TMPLT_PURPOSE        CHAR(6)
+);
+*/
+/*
+CREATE TABLE TEMPLATE
+      (TEMPLATE_ID              INTEGER NOT NULL,
+       TEMPLATE_TYPE            CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       TEMPLATE_NAME            VARCHAR(254) NOT NULL,
+       TEMPLATE_CODE            INTEGER
+);
+*/
+0,"TR_BI",0,0,"TD_SS","PARENT UPDATE RESTRICT",84420536
+1,"TR_BI",0,0,"TD_SS","PARENT UPDATE CASCADE",84413320
+2,"TR_BI",0,0,"TD_SS","PARENT UPDATE SET NULL",84412888
+3,"TR_BI",0,0,"TD_SS","PARENT DELETE RESTRICT",84412456
+4,"TR_BI",0,0,"TD_SS","PARENT DELETE CASCADE",84412184
+5,"TR_BI",0,0,"TD_SS","PARENT DELETE SET NULL",84411832
+6,"TR_BI",0,0,"TD_SS","CHILD INSERT RESTRICT",84411064
+7,"TR_BI",0,0,"TD_SS","CHILD INSERT CASCADE",84410464
+8,"TR_BI",0,0,"TD_SS","CHILD INSERT SETNULL",84345968
+9,"TR_BI",0,0,"TD_SS","CHILD UPDATE RESTRICT",84357888
+10,"TR_BI",0,0,"TD_SS","CHILD UPDATE CASCADE",84359288
+11,"TR_BI",0,0,"TD_SS","CHILD UPDATE SETNULL",84348576
+12,"TR_BI",0,0,"TD_SS","CHILD DELETE RESTRICT",84349848
+13,"TR_BI",0,0,"TD_SS","CHILD DELETE CASCADE",84351232
+14,"TR_BI",0,0,"TD_SS","PARENT INSERT RESTRICT",84352592
+15,"TR_BI",0,0,"TD_SS","UPDATE HEADER",84355472
+16,"TR_BI",0,0,"TD_SS","UPDATE FOOTER",83956984
+17,"TR_BI",0,0,"TD_SS","DELETE HEADER",83956576
+18,"TR_BI",0,0,"TD_SS","DELETE FOOTER",61904744
+19,"TR_BI",0,0,"TD_SS","INSERT HEADER",84356792
+20,"TR_BI",0,0,"TD_SS","INSERT FOOTER",61926584
+21,"TR_BI",0,0,"TD_SS","CUSTOM TRIGGER HEADER",61927088
+22,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+23,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+24,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+25,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+26,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+27,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+28,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+29,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+30,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+31,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+32,"TR_US",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",0
+33,"TR_BI",0,0,"TD_SS","CUSTOM TRIGGER FOOTER",61912536
+34,"TR_BI",0,0,"TD_SS","CUSTOM TRIGGER DEFAULT BODY",75242120
+35,"TR_BI",0,0,"TD_SS","PARENT UPDATE SET DEFAULT",61912576
+36,"TR_BI",0,0,"TD_SS","PARENT DELETE SET DEFAULT",61913040
+37,"TR_BI",0,0,"TD_SS","PARENT INSERT SET DEFAULT",61913280
+38,"TR_BI",0,0,"TD_SS","CHILD INSERT SET DEFAULT",61913520
+39,"TR_BI",0,0,"TD_SS","CHILD UPDATE SET DEFAULT",61913760
+40,"TR_BI",0,0,"TD_SS","CHILD DELETE SET DEFAULT",61914000
+41,"TR_BI",0,0,"TD_SS","CHILD DELETE SET NULL",83961424
+42,"TR_BI",0,0,"TD_SS","PARENT INSERT SET NULL",61914440
+43,"TR_BI",0,0,"TD_SS","PARENT INSERT CASCADE",83961224
+/*
+CREATE TABLE GLOBAL_TEMPLATE
+      (TEMPLATE_ID              INTEGER NOT NULL,
+       TEMPLATE_TYPE            CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       TEMPLATE_PURPOSE         CHAR(6) NOT NULL
+);
+*/
+0,"TR_BI",0,0,"TD_SS","UR_RE"
+1,"TR_BI",0,0,"TD_SS","UR_CA"
+2,"TR_BI",0,0,"TD_SS","UR_SN"
+3,"TR_BI",0,0,"TD_SS","DR_RE"
+4,"TR_BI",0,0,"TD_SS","DR_CA"
+5,"TR_BI",0,0,"TD_SS","DR_SN"
+6,"TR_BI",0,0,"TD_SS","IR_RE"
+7,"TR_BI",0,0,"TD_SS","IR_CA"
+8,"TR_BI",0,0,"TD_SS","IR_SN"
+9,"TR_BI",0,0,"TD_SS","UR_CRE"
+10,"TR_BI",0,0,"TD_SS","UR_CCA"
+11,"TR_BI",0,0,"TD_SS","UR_CSN"
+12,"TR_BI",0,0,"TD_SS","DR_CRE"
+13,"TR_BI",0,0,"TD_SS","DR_CCA"
+14,"TR_BI",0,0,"TD_SS","IR_PRE"
+15,"TR_BI",0,0,"TD_SS","TR_UH"
+16,"TR_BI",0,0,"TD_SS","TR_UF"
+17,"TR_BI",0,0,"TD_SS","TR_DH"
+18,"TR_BI",0,0,"TD_SS","TR_DF"
+19,"TR_BI",0,0,"TD_SS","TR_IH"
+20,"TR_BI",0,0,"TD_SS","TR_IF"
+21,"TR_BI",0,0,"TD_SS","TR_CH"
+33,"TR_BI",0,0,"TD_SS","TR_CF"
+34,"TR_BI",0,0,"TD_SS","TR_CB"
+35,"TR_BI",0,0,"TD_SS","UR_SD"
+36,"TR_BI",0,0,"TD_SS","DR_SD"
+37,"TR_BI",0,0,"TD_SS","IR_PSD"
+38,"TR_BI",0,0,"TD_SS","IR_SD"
+39,"TR_BI",0,0,"TD_SS","UR_CSD"
+40,"TR_BI",0,0,"TD_SS","DR_CSD"
+41,"TR_BI",0,0,"TD_SS","DR_CSN"
+42,"TR_BI",0,0,"TD_SS","IR_PSN"
+43,"TR_BI",0,0,"TD_SS","IR_PCA"
+/*
+CREATE TABLE ENTITY_SP_TEMPLATE
+      (ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       TEMPLATE_ID              INTEGER NOT NULL,
+       TEMPLATE_TYPE            CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL
+);
+*/
+/*
+CREATE TABLE FONT
+      (FONT_ID                  INTEGER NOT NULL,
+       FONT_TYPE                CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       FONT_HEIGHT              INTEGER NOT NULL,
+       FONT_WIDTH               INTEGER NOT NULL,
+       FONT_ESCAPEMENT          INTEGER NOT NULL,
+       FONT_ORIENTATION         INTEGER NOT NULL,
+       FONT_WEIGHT              INTEGER NOT NULL,
+       FONT_ITALIC              BYTE NOT NULL,
+       FONT_UNDERLINE           BYTE NOT NULL,
+       FONT_STRIKEOUT           BYTE NOT NULL,
+       FONT_CHARSET             BYTE NOT NULL,
+       FONT_OUTPRECISION        BYTE NOT NULL,
+       FONT_CLIPPRECISION       BYTE NOT NULL,
+       FONT_QUALITY             BYTE NOT NULL,
+       FONT_PITCHANDFAMILY      BYTE NOT NULL,
+       FONT_NAME                VARCHAR(254) NOT NULL,
+       OLDFONT_HEIGHT           INTEGER NOT NULL,
+);
+*/
+0,"TX_FNT",0,0,10,0,0,0,400,0,0,0,0,7,2,1,34,"Arial",-13
+/*
+CREATE TABLE COLOR
+      (COLOR_ID                 INTEGER NOT NULL,
+       COLOR_TYPE               CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       COLOR_VALUE              INTEGER NOT NULL
+);
+*/
+0,"TX_COL",0,0,0
+1,"TX_COL",0,0,16777215
+/*
+CREATE TABLE SUBJECT
+      (ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       SUBJECT_ID               INTEGER NOT NULL,
+       SUBJECT_NAME             VARCHAR(254),
+       SUBJECT_DESCRIPTION      INTEGER NOT NULL,
+       SUBJECT_AUTHOR           VARCHAR(254),
+       SUBJECT_CREATION_DATE    INTEGER NOT NULL,
+       SUBJECT_MOD_DATE         INTEGER NOT NULL
+);
+*/
+0,71306024,"<Main Subject Area>",83956048,"",1366304557,1366304557,0,0
+/*
+CREATE TABLE DISPLAY
+      (ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       SUBJECT_ID               INTEGER NOT NULL,
+       DISPLAY_ID               INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       DISPLAY_NAME             VARCHAR(254),
+       DISPLAY_DESCRIPTION      INTEGER NOT NULL,
+       DISPLAY_AUTHOR           VARCHAR(254),
+       DISPLAY_CREATION_DATE    INTEGER NOT NULL,
+       DISPLAY_MOD_DATE         INTEGER NOT NULL,
+       ENTITY_FILL_COLOR        INTEGER NOT NULL,
+       BACKGROUND_COLOR_ID      INTEGER NOT NULL,
+       DEF_REL_FONT_ID          INTEGER NOT NULL,
+       DEF_ENT_NAME_FONT_ID     INTEGER NOT NULL,
+       DEF_ENT_DEF_FONT_ID      INTEGER NOT NULL,
+       DEF_ELINE_COLOR_ID       INTEGER NOT NULL,
+       DEF_EDEF_COLOR_ID        INTEGER NOT NULL,
+       DEF_REL_NAME_COLOR_ID    INTEGER NOT NULL,
+       DEF_ENT_NAME_COLOR_ID    INTEGER NOT NULL,
+       FONT_TYPE                CHAR(6),
+       COLOR_TYPE               CHAR(6)
+);
+*/
+0,71306024,1,0,"Display1",83956064,"",1366304557,1366304557,1,1,-1,0,0,0,0,-1,0,"TX_FNT","TX_COL"
+/*
+CREATE TABLE ERWIN_REPORT
+      (ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       ERWIN_REPORT_ID          INTEGER NOT NULL,
+       ERWIN_REPORT_TYPE        CHAR(6) NOT NULL,
+       ERWIN_REPORT_NAME        VARCHAR(254) NOT NULL
+);
+*/
+0,109696224,"RE_SCH","Schema Generation Report"
+/*
+CREATE TABLE ERWIN_REPORT_OPTION
+      (ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       ERWIN_REPORT_ID          INTEGER NOT NULL,
+       REPORT_OPTION_ID         INTEGER NOT NULL,
+       REPORT_OPTION_SEQ        INTEGER NOT NULL,
+       REPORT_OPTION_NAME       VARCHAR(254) NOT NULL,
+       REPORT_OPTION_VALUE      INTEGER NOT NULL,
+       REPORT_OPTION_TYPE       INTEGER NOT NULL,
+       REPORT_OPTION_MULTI      INTEGER NOT NULL
+);
+*/
+0,109696224,30001,1,"FORMAT",2,0,0
+0,109696224,30002,2,"MULTI-VALUE FORMAT",2,0,0
+0,109696224,30003,3,"MERGE TYPES FLAG",1,0,0
+0,109696224,30004,4,"STRIP FLAG",1,0,0
+0,109696224,0,5,"Report Option #0",1,-1,0
+0,109696224,1,6,"Report Option #1",1,-1,0
+0,109696224,2,7,"Report Option #2",0,-1,0
+0,109696224,3,8,"Report Option #3",0,-1,0
+0,109696224,4,9,"Report Option #4",0,-1,0
+0,109696224,5,10,"Report Option #5",0,-1,0
+0,109696224,6,11,"Report Option #6",1,-1,0
+0,109696224,7,12,"Report Option #7",1,-1,0
+0,109696224,8,13,"Report Option #8",1,-1,0
+0,109696224,9,14,"Report Option #9",0,-1,0
+0,109696224,10,15,"Report Option #10",1,-1,0
+0,109696224,11,16,"Report Option #11",1,-1,0
+0,109696224,12,17,"Report Option #12",1,-1,0
+0,109696224,13,18,"Report Option #13",0,-1,0
+0,109696224,14,19,"Report Option #14",1,-1,0
+0,109696224,15,20,"Report Option #15",0,-1,0
+0,109696224,16,21,"Report Option #16",0,-1,0
+0,109696224,17,22,"Report Option #17",1,-1,0
+0,109696224,18,23,"Report Option #18",1,-1,0
+0,109696224,19,24,"Report Option #19",0,-1,0
+0,109696224,20,25,"Report Option #20",0,-1,0
+0,109696224,21,26,"Report Option #21",1,-1,0
+0,109696224,22,27,"Report Option #22",1,-1,0
+0,109696224,23,28,"Report Option #23",1,-1,0
+0,109696224,24,29,"Report Option #24",0,-1,0
+0,109696224,25,30,"Report Option #25",1,-1,0
+0,109696224,26,31,"Report Option #26",0,-1,0
+0,109696224,27,32,"Report Option #27",60,-1,0
+0,109696224,28,33,"Report Option #28",0,-1,0
+0,109696224,29,34,"Report Option #29",0,-1,0
+0,109696224,30,35,"Report Option #30",0,-1,0
+0,109696224,31,36,"Report Option #31",0,-1,0
+0,109696224,32,37,"Report Option #32",0,-1,0
+0,109696224,33,38,"Report Option #33",0,-1,0
+0,109696224,34,39,"Report Option #34",0,-1,0
+0,109696224,35,40,"Report Option #35",0,-1,0
+0,109696224,36,41,"Report Option #36",0,-1,0
+0,109696224,37,42,"Report Option #37",0,-1,0
+0,109696224,38,43,"Report Option #38",0,-1,0
+0,109696224,39,44,"Report Option #39",0,-1,0
+0,109696224,40,45,"Report Option #40",1,-1,0
+0,109696224,41,46,"Report Option #41",1,-1,0
+0,109696224,42,47,"Report Option #42",1,-1,0
+0,109696224,43,48,"Report Option #43",1,-1,0
+0,109696224,44,49,"Report Option #44",1,-1,0
+0,109696224,45,50,"Report Option #45",1,-1,0
+0,109696224,46,51,"Report Option #46",0,-1,0
+0,109696224,47,52,"Report Option #47",0,-1,0
+0,109696224,48,53,"Report Option #48",0,-1,0
+0,109696224,49,54,"Report Option #49",0,-1,0
+0,109696224,50,55,"Report Option #50",0,-1,0
+0,109696224,51,56,"Report Option #51",0,-1,0
+0,109696224,52,57,"Report Option #52",0,-1,0
+0,109696224,53,58,"Report Option #53",1,-1,0
+0,109696224,54,59,"Report Option #54",0,-1,0
+/*
+CREATE TABLE ENTITY_SYNONYM
+       SYNONYM_NAME             CHAR(128) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL
+);
+*/
+/*
+CREATE TABLE SYNONYM_PHYSICAL_PV
+      (SYNONYM_NAME             CHAR(128) NOT NULL,
+       ENTITY_ID                INTEGER NOT NULL,
+       ENTITY_TYPE              CHAR(6) NOT NULL,
+       ERWIN_DIAGRAM_ID         INTEGER NOT NULL,
+       RESERVED                 INTEGER NOT NULL,
+       TARGET_SYSTEM            CHAR(6) NOT NULL,
+       SYNONYM_PV_ID            CHAR(6),
+       SYNONYM_PV_VALUE         CHAR(256)
+);
+*/

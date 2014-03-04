@@ -1,0 +1,3 @@
+mudando notação para IE
+
+Model > model properties > Notation

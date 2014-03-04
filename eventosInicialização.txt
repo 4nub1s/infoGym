@@ -1,0 +1,9 @@
+No momento da inicialização do sistema(primeira 
+do dia)
+- Bloqueia entrada de usuários que estão em débito
+- Abre caixa
+- Cancelar avaliações agendadas e não realizadas
+
+
+Quando pagar mensalidade:
+- Gerar próxima mensalidade
