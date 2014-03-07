@@ -75,6 +75,7 @@
     <Compile Include="Classes\BD\CaixaBD.cs" />
     <Compile Include="Classes\BD\ComposicaoBD.cs" />
     <Compile Include="Classes\BD\DespesaBD.cs" />
+    <Compile Include="Classes\BD\FichaBD.cs" />
     <Compile Include="Classes\BD\NeuromotorBD.cs" />
     <Compile Include="Classes\BD\PerimetroBD.cs" />
     <Compile Include="Classes\Negocio\Anamnese.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Classes\Negocio\Caixa.cs" />
     <Compile Include="Classes\Negocio\Empresa.cs" />
     <Compile Include="Classes\Negocio\Exercicio.cs" />
+    <Compile Include="Classes\Negocio\Ficha.cs" />
     <Compile Include="Classes\Negocio\Fornecedor.cs" />
     <Compile Include="Classes\Negocio\Funcionario.cs" />
     <Compile Include="Classes\Negocio\ItensVenda.cs" />
