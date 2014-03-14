@@ -103,10 +103,14 @@ E:\infoGym\infoGym\infoGym\obj\x86\Debug\Interop.AccessibilityCplAdminLib.dll
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.csproj.ResolveComReference.cache
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.exe
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.pdb
+<<<<<<< HEAD
 E:\infoGym\infoGym\infoGym\bin\Debug\infoGym.exe
 E:\infoGym\infoGym\infoGym\bin\Debug\infoGym.pdb
 E:\infoGym\infoGym\infoGym\bin\Debug\policy.2.0.Npgsql.config
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\ResolveAssemblyReference.cache
+=======
+E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.csprojResolveAssemblyReference.cache
+>>>>>>> 8ad2b6d2e31bfbd341e1ce2ecc3187e5b34d74e7
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.frmAvControlar.resources
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.frmAgendaAvNova.resources
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.frmAvaliacao.resources
@@ -168,5 +172,5 @@ E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.frmVendaNova.resources
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.Properties.Resources.resources
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\GenerateResource.read.1.tlog
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\GenerateResource.write.1.tlog
-E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.csprojResolveAssemblyReference.cache
 E:\infoGym\infoGym\infoGym\obj\x86\Debug\infoGym.csproj.GenerateResource.Cache
+E:\infoGym\infoGym\infoGym\bin\Debug\infoGym.exe.config
